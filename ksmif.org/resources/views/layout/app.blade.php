@@ -3,6 +3,9 @@
 <head>
     <title>{{getenv('APP_NAME')}}</title>
     <meta charset="utf-8" />
+    <meta property="og:title" content="KSM-IF UBAYA" />
+    <meta property="og:description" content="Kelompok Studi Mahasiswa Informatika Universitas Surabaya" />
+    <meta property="og:image" content="images/thumbnail.webp" />
     <meta name="description" content="KSM Informatika Universitas Surabaya (UBAYA), WE NOT ME"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="images/icon/tab-icon.png" />
