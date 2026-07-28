@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{getenv('APP_NAME')}}</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{{getenv('APP_NAME')}}</title>
+    <meta name="description" content="KSM Informatika Universitas Surabaya (UBAYA), WE NOT ME"/>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:title" content="KSM-IF UBAYA" />
     <meta property="og:description" content="Kelompok Studi Mahasiswa Informatika Universitas Surabaya" />
-    <meta property="og:image" content="images/thumbnail.webp" />
-    <meta name="description" content="KSM Informatika Universitas Surabaya (UBAYA), WE NOT ME"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:image" content="{{ asset('images/icon/thumbnail.webp') }}" />
+
     <link rel="icon" type="image/x-icon" href="images/icon/tab-icon.png" />
     <script src="/lib/jquery.js"></script>
     @vite('resources/css/app.css')
