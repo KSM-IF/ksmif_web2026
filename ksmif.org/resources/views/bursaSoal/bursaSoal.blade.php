@@ -54,18 +54,63 @@
     </form>
 </div>
 
-<div class="mx-1.5 border-2 border-dashed grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 bg-[#ffffff99] backdrop-blur-xs mb-4 rounded-2xl place-items-center">
-    
-    <div class="grid grid-rows-4 max-h-72 max-w-52 bg-white shadow-black shadow-2xl rounded-b-2xl my-4 mx-2 max-w-48">
-        <div class="row-span-3 overflow-hidden">
-            <img src="https://i.pinimg.com/originals/97/8e/04/978e043544b65dbf818ea9ff95faaa3d.jpg" alt="gambarSoal" class="w-full h-full object-cover">
+
+<div id="selector" class="mx-1.5 border-2 border-dashed grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 bg-[#ffffff99] backdrop-blur-xs mb-4 rounded-2xl place-items-center">
+    @if($data['bursaSoal'] == false)
+        <p>data masih kosong krn admin sedang malas isi data. Isi data mandiri di dashboard admin yeh<br>-Louis :D</p>
+    @else
+        @foreach($data['bursaSoal'] as $i)
+        <div data-file-id="{{$i->path}}"
+            data-nama-file="{{$i->nama_file}}"
+            data-matkul="{{$i->matkul->nama_matkul}}"
+            data-tahun="{{$i->tahun}}"
+            data-username="{{$i->users->username}}"
+            class="item grid grid-rows-4 max-h-72 max-w-52 bg-white shadow-black shadow-2xl rounded-b-2xl my-4 mx-2 max-w-48">
+            <div class="row-span-3 overflow-hidden">
+                <img src="https://lh3.googleusercontent.com/d/{{$i->path}}=s300" alt="gambarSoal" referrerpolicy="no-referrer" class="w-full h-full">
+            </div>
+            <div class="mx-2">
+                <p>{{$i->nama_file}}</p>
+                <p class="text-zinc-600">{{$i->matkul->nama_matkul}}</p>
+            </div>
         </div>
-        <div class="mx-2">
-            <p>tess</p>
-            <p class="text-zinc-600">Matkul:</p>
+        @endforeach
+    @endif
+</div>
+
+
+<div id="viewer" class="z-20 w-screen h-screen top-0 backdrop-blur-xs fixed place-items-center place-content-center font-['Jersey10'] hidden">
+    <div class="bg bg-[#212121] rounded-2xl md:flex sm:grid sm:grid-cols-1 sm:h-fit">
+        <iframe frameborder="0"
+                class="w-full lg:h-[45rem] h-[35rem] p-5 bg-[#999]">
+        </iframe>
+        
+        <div class="grid h-50 text-white text-[1.2rem] md:text-2xl md:mt-12 mx-4 md:w-xl">
+            <div class="grid grid-cols-2">
+                <p>Nama File</p><p id="viewNamaFile">: pppp</p>
+            </div>
+            <div class="grid grid-cols-2">
+                <p>Matkul</p><p id="viewMatkul">: ppp</p>    
+            </div>
+            <div class="grid grid-cols-2">
+                <p>Tahun</p><p id="viewTahun">: pppp</p>
+            </div>
+            <div class="grid grid-cols-2">
+                <p>Uploaded By</p><p id="viewUploadedBy">: ppp</p>
+            </div>
+            <div class="grid grid-cols-2 h-fit mx-12 md:mx-0">
+                <div class="bg-green-600 w-fit p-1 md:p-2 m-2">      
+                    <a class="flex">
+                        Downloads
+                        <img src="/images/icon/download.svg" alt="Download btn" class="h-8 pl-2">
+                    </a>
+                </div>
+                <div id="cancelView" class="border border-e-amber-50 p-1 md:p-2 m-2 text-center">
+                    <p>Cancel</p>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -95,8 +140,26 @@ $('#formSearch').on('submit', function(e){
     success: function (res) {
         console.log(res);
     }
-});
+    });
 });
 
+$("#selector").on("click",".item", function(){
+    let id       = $(this).data("fileId");  
+    let namaFile = $(this).data("namaFile");
+    let matkul   = $(this).data("matkul");
+    let tahun    = $(this).data("tahun");
+    let usrname  = $(this).data("username");
+    $("#viewer iframe").attr("src", `https://drive.google.com/file/d/${id}/preview`);
+    $("#viewer a").attr("href", `https://drive.usercontent.google.com/u/0/uc?id=${id}&export=download`);
+    $("#viewNamaFile").text(`: ${namaFile}`);
+    $("#viewMatkul").text(`: ${matkul}`);
+    $("#viewTahun").text(`: ${tahun}`);
+    $("#viewUploadedBy").text(`: ${usrname}`);
+    $("#viewer").fadeIn();
+});
+
+$("#cancelView").click(function(){
+    $("#viewer").fadeOut();
+});
 </script>
 @endsection

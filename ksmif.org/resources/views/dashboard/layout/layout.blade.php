@@ -9,7 +9,7 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <div class="flex flex-row">
+    <div class="flex flex-row min-h-[68vh]">
         <div class="basis-40 border-r">
             @include('dashboard.layout.navbar')
         </div>

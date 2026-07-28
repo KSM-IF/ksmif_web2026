@@ -31,25 +31,25 @@
         <div id="mobile-nav" class="p-2 nav-link flex border-4 border-dashed rounded-2xl">
             <img class="h-9 ml-3" src="/images/icon/menu.svg" alt="" type="image/svg+xml">
         </div>
-        <div id="mobile-nav-menu" class="rounded-2xl border-2" hidden>
-            <a href="/" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2">
+        <div id="mobile-nav-menu" class="rounded-2xl border-2 border-[#00000039] hidden">
+            <a href="/" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
                 <img class="h-9" src="/images/icon/home.svg" alt="" type="image/svg+xml">
                 <p>Homepage</p>
             </a>
-            <a href="/our-team" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2">
+            <a href="/our-team" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
                 <img class="h-9" src="/images/icon/people.svg" alt="" type="image/svg+xml">
                 <p>Our Team</p>
             </a>
-            <a href="/bursa-soal" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2">
+            <a href="/bursa-soal" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
                 <img class="h-9" src="/images/icon/book.svg" alt="" type="image/svg+xml">
                 <p>Bursa Soal</p>
             </a>
             @if ($data['auth'])
-            <a id="dashboard" href="/dashboard/editMember" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2">
+            <a id="dashboard" href="/dashboard/editMember" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
                 Dashboard
             </a>
             @else  
-            <a id="mobile-loginBtn" href="" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2">
+            <a id="mobile-loginBtn" href="" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
                 Login / SignUp
             </a>
             @endif
@@ -74,10 +74,10 @@
     let mobileMenuClick = false;
     $('#mobile-nav').click(function () { 
         if(!mobileMenuClick){
-            $('#mobile-nav-menu').attr('hidden', 'true');
+            $('#mobile-nav-menu').stop().slideDown(300);
             mobileMenuClick = true;
         }else{
-            $('#mobile-nav-menu').removeAttr('hidden');
+            $('#mobile-nav-menu').stop().slideUp(300);
             mobileMenuClick = false;
         }
     });
@@ -85,11 +85,11 @@
     $('.nav-link').hover(function(){
             // over
             $(this).addClass('nav-hover');
-            console.log("hover");       
+            // console.log("hover");       
         }, function() {
             // out
             $(this).removeClass('nav-hover');
-            console.log("out");
+            // console.log("out");
         }
     );
     

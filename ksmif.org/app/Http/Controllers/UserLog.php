@@ -24,7 +24,9 @@ class UserLog
                 $token = $user->createToken('login')->plainTextToken;
                 $data  = [
                     'user' => $user,
-                    'token'=> $token
+                    'token'=> $token,
+                    'token_type' => 'bearer',
+                    'expires_in' => auth('api')->factory()->getTTL() * 60
                     ];
             }else{throw new Exception("Invalid username or password",0);}
             return redirect("/dashboard/editMember",302)->with($data);
@@ -91,6 +93,36 @@ class UserLog
 
             return response()->json($tes);
         }catch(Exception $ex){
+            $data = ['err' => $ex->getMessage()];
+            return view("errors.{$ex->getCode()}",compact('data'));
+        }
+    }
+
+    function deleteUserData(Request $req){
+        try {
+            if($req->filled('id')){
+                $id = $req->query('id');
+                $user = User::find($id);
+                if($user){
+                    $member = Members::where('users_id',$user->id)->get();
+                    foreach($member as $i){
+                        $i->delete();
+                    }
+                    $user->delete();
+                }else throw new Exception("Cannot find users", 400);
+                $data = ['user' => $user,
+                         'member' => $member,
+                         'status' => true
+                        ];
+                return response()->json($data);
+            }else if($req->filled('memberId')){
+                $id = $req->query('memberId');
+                $member = Members::find($id);
+                $member->delete();
+                $data = ['member'=>$member];
+                return response()->json($data);
+            }
+        } catch (Exception $ex) {
             $data = ['err' => $ex->getMessage()];
             return view("errors.{$ex->getCode()}",compact('data'));
         }

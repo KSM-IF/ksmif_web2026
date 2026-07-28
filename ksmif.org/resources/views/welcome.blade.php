@@ -43,7 +43,7 @@
     </style>
 
     {{-- HEADER --}}
-    <div class="h-screen justify-center-safe place-items-center grid sm:mt-[5%] font-['Jersey10'] mt-[20%]">
+    <div id="header-panel" class="h-screen justify-center-safe place-items-center grid sm:mt-[5%] font-['Jersey10'] mt-[20%]">
         <div id="header" class="grid justify-center place-items-center">
             <iframe src="images/icon/ksmHytam.svg" type="image/svg+xml"></iframe>
             <h1 class="sm:text-3xl sm:mt-3 text-2xl">Kelompok Studi Mahasiswa Informatika</h1>

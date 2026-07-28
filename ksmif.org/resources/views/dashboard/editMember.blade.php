@@ -198,7 +198,7 @@ $('.edit-btn').click(function (e) {
                             <p>Current photo:${e.display_photo}</p>
                             <input type="file" accept="image/*" class="border-b">
                         </td>
-                        <td class="border p-2"><button>Edit</button> | <button>Delete</button></td>
+                        <td class="border p-2"><button class="editMember">Edit</button> | <button class="deleteMember">Delete</button></td>
                     </tr>
                 </form>`;
             });
@@ -245,6 +245,47 @@ $('#editDataUser').on('click', '#saveUser', function(e){
         });
     }else{
         window.location.replace("/dashboard/editMember");
+    }
+});
+
+$('#editDataUser').on('click', '#deleteUser', function(e){
+    e.preventDefault();
+    let formData = $(this).closest('form').serializeArray().reduce((obj,i)=>{
+        obj[i.name] = i.value;
+        return obj;
+    },{});
+    console.log(formData);
+
+    let sessionId  = $('meta[name="session-id"]').attr('content');
+    let usrConfirm = confirm(`Beneran mau delete data ${formData.username} nih 😢`);
+    let usrConfirm2= confirm(
+        `Yakin nih bang ? coba check dulu :
+        ID        = ${user.id}
+        Full Name = ${formData.fullname}
+        Username  = ${formData.username}
+        NRP       = ${formData.nrp}
+        Email     = ${formData.email}`);
+    
+    if(usrConfirm && usrConfirm2){
+        $.ajax({
+            type: "DELETE",
+            url: `/dashboard/editMember/by?id=${user.id}`,
+            data: JSON.stringify(formData),
+            dataType: "json",
+            headers:{
+                'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                if(response.status === true){
+                    alert(`Delete Data success!!`);
+                    window.location.replace("/dashboard/editMember");
+                }
+            },
+            error: function(xhr) {
+            console.log('Error:', xhr.responseText);
+            }
+        });
     }
 });
 </script>

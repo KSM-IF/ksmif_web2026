@@ -43,7 +43,7 @@ $(window).resize(function(){
 function responsiveDocs(){
     let docWidth  = $(document).width();
     let winHeight = $(window).height();
-    console.log(winHeight);
+    //console.log(winHeight);
     if(docWidth<1260){
         $('#desktop-nav').attr('hidden', '');
         $('#mobile-nav').removeAttr('hidden');
@@ -59,6 +59,4 @@ function responsiveDocs(){
         $('nav').css('margin-top', '300px');
     }
 }
-
-$('#mobile-nav').click();
 </script>

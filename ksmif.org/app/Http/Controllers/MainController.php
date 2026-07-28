@@ -162,22 +162,9 @@ class MainController extends Controller
         // return response()->json($data);
         return view('ourTeam', compact('data'));
     }
-
-    function bursaSoal(){
-        $bursaSoal = BursaSoal::with('matkul','user')->get();
-
-        $data=['navbar'   => 'bursaSoal',
-               'bursaSoal'=> $bursaSoal,
-               'auth'     => Auth::check()
-               ];
-        return view('bursaSoal.bursaSoal', compact('data'));
-        // return response()->json($data);
-    }
-
-    function bursaSoalBy(Request $req){
-        $year = $req->query('year');
-
-        $data =[$year];
-        return response()->json($data);
+    
+    function tesError(Request $req){
+        $code = $req->query('code');
+        return view("/errors.{$code}");
     }
 }

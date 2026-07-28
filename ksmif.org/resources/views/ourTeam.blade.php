@@ -48,7 +48,7 @@
 
     <div class="text-center my-5">
             @foreach ($data['member'] as $key => $item)
-                <div class="sm:p-4 p-0.5 bg-black border lg:w-[40%] w-[90%] text-white mx-auto ">
+                <div class="sm:p-4 p-0.5 bg-black border lg:w-[40%] w-[90%] text-white mx-auto">
                 @switch($key)
                     @case('bph')
                         <p class="sm:text-6xl text-5xl">BPH</p>
@@ -73,9 +73,9 @@
                 @endswitch
                 </div>
                 
-                <div class="grid xl:grid-cols-6 md:grid-cols-4n sm:grid-cols-3 grid-cols-2 gap-4 lg:mx-8 mx-2 my-4 justify-items-center" id="members">
+                <div class="grid grid-cols-[repeat(2,auto)] min-[740px]:grid-cols-[repeat(3,auto)] min-[970px]:grid-cols-[repeat(4,auto)] xl:grid-cols-[repeat(6,auto)] justify-center gap-4 lg:mx-8 mx-2 my-4" id="members">
                     @foreach($item as $i)
-                    <div class="border-2 border-dashed p-2 rounded-2xl max-w-56 backdrop-blur-sm">
+                    <div class="border-2 border-dashed p-2 rounded-2xl max-w-56 min-w-44 max-h-[350px] backdrop-blur-sm">
                         <p class="text-6xl">{{$i['division']}}</p>
                         <p class="text-4xl">{{$i['role']}}</p>
                         @if(is_null($i['display_photo']))

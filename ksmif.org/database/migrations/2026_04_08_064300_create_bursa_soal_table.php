@@ -20,12 +20,18 @@ return new class extends Migration
 
         Schema::create('bursa_soal', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('matkul_id');
+            $table->string('matkul_id', 8);
+            $table->string('nama_file');
             $table->foreignId('uploaded_by')->constrained('users');
             $table->string('tahun');
             $table->enum('tipe',['UTS', 'UAS', 'Quiz', 'Latihan']);
             $table->string('path');
             $table->timestamps();
+
+            $table->foreign('matkul_id')
+                  ->references('id') 
+                  ->on('matkul')
+                  ->onDelete('cascade');
         });
     }
 

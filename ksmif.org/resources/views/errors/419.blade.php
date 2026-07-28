@@ -12,7 +12,7 @@
     <div class="h-screen grid font-['Jersey10']">
         <div id="header" class="grid justify-center place-items-center sm:mt-[5%] mt-[20%] sm:mb-[11%] mb-64">
             <img class="h-30" src="/images/icon/ksmHytam.svg" type="image/svg+xml">
-            <h3 class="lg:text-9xl sm:mt-3 text-7xl">419 Expired</h3>
+            <h3 class="lg:text-9xl sm:text-7xl sm:mt-3 text-6xl text-center">419 Expired</h3>
             <h3 class="sm:text-3xl text-2xl m-5 text-pretty">It looks like you have an mismatch token or an expired session.</h3>
             <a href="/" class="text-white p-5 bg-black text-5xl">Back To Homepage</a>
         </div>
