@@ -9,7 +9,7 @@
         @csrf
         <div class="m-2">
             <label for="namaFile">Nama file:</label>
-            <input type="text" name="namaFile" id="namaFile" class="border-b" required>
+            <input type="text" name="namaFile" id="namaFile" class="border-b" placeholder="Ex:UAS OOP" required>
         </div>
         <div class="m-2">
             <label for="file">Upload File:</label>
@@ -22,6 +22,7 @@
         <div class="m-2">
             <label for="matkul">Matkul:</label>
             <select name="matkul" id="matkul" required>
+                <option value="" disabled selected hidden>pilih matkul dulu mass</option>
                 @foreach($data['matkul'] as $i)
                 <option value="{{$i->id}}">{{$i->nama_matkul}}</option>
                 @endforeach
@@ -30,6 +31,7 @@
         <div class="m-2">
             <label for="tipe">Tipe :</label>
             <select name="tipe" id="tipe" required>
+                <option value="" disabled selected hidden>pilih tipe dulu :v</option>
                 @foreach($data['tipe'] as $i)
                 <option value="{{$i}}">{{$i}}</option>
                 @endforeach
@@ -46,9 +48,10 @@
             <tr>
                 <th class="p-2 border">ID</th>
                 <th class="p-2 border">Nama File</th>
+                <th class="p-2 border">Tipe</th>
                 <th class="p-2 border">Matkul</th>
-                <th class="p-2 border">Uploaded By</th>
                 <th class="p-2 border">Tahun</th>
+                <th class="p-2 border">Uploaded By</th>
                 <th class="p-2 border">Upload</th>
                 <th class="p-2 border">Action</th>
             </tr>
@@ -59,10 +62,11 @@
             <tr>
                 <td class="p-2 border">{{$i['id']}}</td>
                 <td class="p-2 border">{{$i['namaFile']}}</td>
+                <td class="p-2 border">{{$i['tipe']}}</td>
                 <td class="p-2 border">{{$i['matkul']->nama_matkul}}</td>
-                <td class="p-2 border">{{$i['user']->full_name}}</td>
                 <td class="p-2 border">{{$i['tahun']}}</td>
-                <td class="p-2 border">{{$i['uploadedAt']}}</td>
+                <td class="p-2 border">{{$i['user']->full_name}}</td>
+                <td class="p-2 border">{{$i['uploadAt']}}</td>
                 <td class="p-2 border flex">
                     <p data-id="{{$i['id']}}" class="delete">Delete</p>
                 </td>
@@ -81,7 +85,7 @@
     $("#submitFile").on('submit',function(e) {
         e.preventDefault();
         if(submitClick){
-            alert("SABAR ANYING MASIH UPLOADD");
+            alert("SABAR ANYING MASIH UPLOADD!!!\n😊");
             return 0;
         }
 
@@ -104,6 +108,7 @@
             },
              error: function (xhr) {
                 alert('Error: ' + xhr.responseJSON?.pesan || 'Terjadi kesalahan');
+                location.reload();
             }
         });
     });

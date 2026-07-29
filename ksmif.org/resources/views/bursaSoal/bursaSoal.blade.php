@@ -35,20 +35,24 @@
     <form id="formSearch" class="xl:text-4xl text-3xl md:my-8 my-1">
         <div class="mb-0">
             <p class="text-5xl">Cari Soal:</p>
-            <input type="text" name="search" id="search" class="border-b" placeholder="cth: Quiz OOP">
+            <input type="text" name="search" id="search" class="border-b" placeholder="cth: Quiz OOP"">
         </div>
 
         <div>
             <label for="year">Tahun:</label>
-            <select name="year">
-                <option value="tes1">tes1</option>
-                <option value="tes2">tes2</option>
+            <select name="year" class="underline">
+                <option value="all">ALL</option>
+                @foreach($data['tahun'] as $i)
+                <option value="{{$i}}">{{$i}}</option>
+                @endforeach
             </select>
-
+            <br class="sm:hidden">
             <label for="matkul">Matkul:</label>
-            <select name="matkul">
-                <option value="tes1">tes1</option>
-                <option value="tes2">tes2</option>
+            <select name="matkul" class="underline w-56">
+                <option value="all">ALL</option>
+                @foreach ($data['matkul'] as $i)
+                <option value="{{$i->id}}">{{$i->nama_matkul}}</option>
+                @endforeach
             </select>
         </div>
     </form>
@@ -131,15 +135,39 @@ for(let i=0; i < title['length']; i++){
     }
 }
 
+$('#formSearch select, #formSearch input').on('change', function() {
+    $('#formSearch').submit();
+});
+
 $('#formSearch').on('submit', function(e){
     e.preventDefault();
 
     $.ajax({
     type: "GET",
     url: "/bursa-soal/by",
+    data: $(this).serialize(),
+    dataType    : "json",
     success: function (res) {
-        console.log(res);
-    }
+            let list = '';
+            res.result.forEach(e => {
+                list +=
+                `<div data-file-id="${e.path}"
+                    data-nama-file="${e.nama_file}"
+                    data-matkul="${e.matkul.nama_matkul}"
+                    data-tahun="${e.tahun}"
+                    data-username="${e.username}"
+                    class="item grid grid-rows-4 max-h-72 max-w-52 bg-white shadow-black shadow-2xl rounded-b-2xl my-4 mx-2 max-w-48">
+                    <div class="row-span-3 overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/d/${e.path}=s300" alt="gambarSoal" referrerpolicy="no-referrer" class="w-full h-full">
+                    </div>
+                    <div class="mx-2">
+                        <p>${e.nama_file}</p>
+                        <p class="text-zinc-600">${e.matkulnama_matkul}</p>
+                    </div>
+                </div>`;
+            });
+            $('#selector').html(list);
+        }
     });
 });
 

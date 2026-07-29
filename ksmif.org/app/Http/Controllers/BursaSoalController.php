@@ -14,10 +14,13 @@ class BursaSoalController
 {
     function bursaSoal(){
         $bursaSoal = BursaSoal::with('matkul','users')->get();
+        $matkul    = Matkul::get();
         if($bursaSoal->isEmpty()){$bursaSoal = false;}
 
         $data=['navbar'   => 'bursaSoal',
                'bursaSoal'=> $bursaSoal,
+               'matkul'   => $matkul,
+               'tahun'    => $bursaSoal->pluck('tahun')->unique(),
                'auth'     => Auth::user()
                ];
         return view('bursaSoal.bursaSoal', compact('data'));
@@ -25,9 +28,32 @@ class BursaSoalController
     }
 
     function bursaSoalBy(Request $req){
-        $year = $req->query('year');
+        $year   = $req->query('year');
+        $matkul = $req->query('matkul');
+        $search = $req->query('search');
 
-        $data =[$year];
+        $bursaSoal = BursaSoal::query()->with('matkul');
+        
+        if($search){
+            $keywords = explode(' ', $search);
+
+            $bursaSoal->where(function ($q) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $q->orWhere('nama_file', 'LIKE', '%' . $word . '%');
+                }
+            });
+        }
+
+        if($matkul && $matkul != 'all'){
+            $bursaSoal->where('matkul_id', $matkul);
+        }else if($year && $year != 'all'){
+            $bursaSoal->where('tahun', $year);
+        }
+
+        $data = [
+            'result' => $bursaSoal->get()
+        ];
+
         return response()->json($data);
     }
 
@@ -42,6 +68,7 @@ class BursaSoalController
                 'namaFile'=> $i->nama_file,
                 'matkul'  => $i->matkul,
                 'user'    => $i->users,
+                'tipe'    => $i->tipe,
                 'tahun'   => $i->tahun,
                 'uploadAt'=> $i->updated_at
             ];
