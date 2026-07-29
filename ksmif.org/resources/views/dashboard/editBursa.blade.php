@@ -42,26 +42,29 @@
 <div>
     <table class="m-4">
         <thead>
-            <tr><th colspan="5" class="border">Edit Bursa</th></tr>
+            <tr><th colspan="7" class="border">Edit Bursa</th></tr>
             <tr>
                 <th class="p-2 border">ID</th>
+                <th class="p-2 border">Nama File</th>
                 <th class="p-2 border">Matkul</th>
                 <th class="p-2 border">Uploaded By</th>
                 <th class="p-2 border">Tahun</th>
+                <th class="p-2 border">Upload</th>
                 <th class="p-2 border">Action</th>
             </tr>
         </thead>
         
-        <tbody>
+        <tbody id="dataBursa">
             @forEach($data['bursaSoal'] as $i)
             <tr>
                 <td class="p-2 border">{{$i['id']}}</td>
+                <td class="p-2 border">{{$i['namaFile']}}</td>
                 <td class="p-2 border">{{$i['matkul']->nama_matkul}}</td>
                 <td class="p-2 border">{{$i['user']->full_name}}</td>
                 <td class="p-2 border">{{$i['tahun']}}</td>
-                <td class="p-2 border">
-                    <input type="button" data-idBursa="{{$i['id']}}" value="Edit"> |
-                    <input type="button" data-idBursa="{{$i['id']}}" value="Delete">
+                <td class="p-2 border">{{$i['uploadedAt']}}</td>
+                <td class="p-2 border flex">
+                    <p data-id="{{$i['id']}}" class="delete">Delete</p>
                 </td>
             </tr>
             @endforeach
@@ -74,10 +77,17 @@
     $("#tahun").val(now); 
     $("#tahun").attr("max", now);
 
+    let submitClick = false;
     $("#submitFile").on('submit',function(e) {
         e.preventDefault();
+        if(submitClick){
+            alert("SABAR ANYING MASIH UPLOADD");
+            return 0;
+        }
 
-        alert("SABAR MASS LAGI UPLOAD!!!\nJangan spam ya, nanti bakal di notif kok kalo udh selesai :D");
+        submitClick = true;
+
+        alert("Sabar mas masih upload!!!\nJangan spam ya, nanti bakal di notif kok kalo udh selesai / gagal :D");
         let fData    = new FormData(this);
 
         $.ajax({
@@ -93,6 +103,26 @@
                 location.reload();
             },
              error: function (xhr) {
+                alert('Error: ' + xhr.responseJSON?.pesan || 'Terjadi kesalahan');
+            }
+        });
+    });
+
+    $("#dataBursa").on("click",".delete", function(){
+        let id   = $(this).data("id");
+        let data = {'id': id, '_method': 'DELETE'};
+        alert("Sabar masih on posess....");
+
+        $.ajax({
+            type: "POST",
+            url: "/dashboard/editBursa",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                alert(res['pesan']);
+                location.reload();
+            },error: function (xhr) {
                 alert('Error: ' + xhr.responseJSON?.pesan || 'Terjadi kesalahan');
             }
         });

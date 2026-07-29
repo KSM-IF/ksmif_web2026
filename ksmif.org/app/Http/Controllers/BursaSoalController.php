@@ -38,10 +38,12 @@ class BursaSoalController
         $dataBursa = [];
         foreach ($bursaSoal as $i) {
             $dataBursa[] = [
-                'id'    => $i->id,
-                'matkul'=> $i->matkul,
-                'user'  => $i->users,
-                'tahun' => $i->tahun,
+                'id'      => $i->id,
+                'namaFile'=> $i->nama_file,
+                'matkul'  => $i->matkul,
+                'user'    => $i->users,
+                'tahun'   => $i->tahun,
+                'uploadAt'=> $i->updated_at
             ];
         }
 
@@ -79,12 +81,14 @@ class BursaSoalController
             if (!$gdFolder)     throw new \Exception('GD_FOLDER_ID tidak ditemukan :(');
             if (!$appScriptUrl) throw new \Exception('APPSCRIPT_URL tidak ditemukan :(');
 
-            $response = Http::timeout(60)->post($appScriptUrl, [
-                'fileName'   => $namaFile,
-                'fileBase64' => base64_encode($file->getContent()),
-                'folderId'   => $gdFolder,
-                'mimeType'   => $file->getMimeType() ?: 'application/octet-stream',
-            ]);
+            $response = Http::timeout(60)
+                            ->asJson()
+                            ->post($appScriptUrl, [
+                                'fileName'   => $namaFile,
+                                'fileBase64' => base64_encode($file->getContent()),
+                                'folderId'   => $gdFolder,
+                                'mimeType'   => $file->getMimeType() ?: 'application/octet-stream',
+                            ]);
 
             $result = $response->json();
 
@@ -110,16 +114,56 @@ class BursaSoalController
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
-                'pesan' => 'Validasi gagal: '+implode(', ', $e->errors()),
+                'pesan' => 'Validasi gagal: '.implode(', ', $e->errors()),
                 'errors' => $e->errors(),
             ], 422);
         } catch (\Exception $e) {
-            \Log::error('Upload error: '+$e->getMessage());
+            \Log::error('Upload error: '.$e->getMessage());
             return response()->json(['pesan' => $e->getMessage(),], 500);
         }
     }
     
     function deleteSoal(Request $req){
-        
+        try{
+            $id = $req->input('id');
+
+            $bursaSoal = BursaSoal::find($id);
+            $gdFolder     = env('GD_FOLDER_ID');
+            $appScriptUrl = env('GD_DELETE_SOAL');
+
+            if (!$gdFolder)     throw new \Exception('GD_FOLDER_ID tidak ditemukan :(');
+            if (!$appScriptUrl) throw new \Exception('APPSCRIPT_URL tidak ditemukan :(');
+
+            if(!$bursaSoal) throw new \Exception('data bursa soal tidak ditemukan !!');
+            \Log::info("kirim path :".$bursaSoal->path);
+            $response = Http::timeout(60)
+                            ->asJson()
+                            ->post($appScriptUrl,[
+                                'fileId'   => $bursaSoal->path
+                            ]);
+
+            $result = $response->json();
+            if (!$response->successful() || !($result['success'] ?? false)) {
+                throw new \Exception(
+                    $result['error'] ?? 'Apps Script gagal memproses file'
+                );
+            }
+
+            $bursaSoal->delete();
+
+            return response()->json([
+                'pesan' => 'Mantap bang! File sukses dihapus :D',
+                'file_id_drive' => $result['fileId'],
+            ], 201);
+
+        }catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'pesan' => 'Validasi gagal: '.implode(', ', $e->errors()),
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Delete error: '.$e->getMessage());
+            return response()->json(['pesan' => $e->getMessage(),], 500);
+        }
     }
 }
