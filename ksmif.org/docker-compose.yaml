@@ -26,6 +26,7 @@ services:
     build: ./dockerconfig
     volumes:
       - ./:/var/www/ksmif.org
+      - ./dockerconfig/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     working_dir: /var/www/ksmif.org
 
   composer:

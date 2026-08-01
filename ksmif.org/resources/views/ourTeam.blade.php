@@ -73,17 +73,25 @@
                 @endswitch
                 </div>
                 
-                <div class="grid grid-cols-[repeat(2,auto)] min-[740px]:grid-cols-[repeat(3,auto)] min-[970px]:grid-cols-[repeat(4,auto)] xl:grid-cols-[repeat(6,auto)] justify-center gap-4 lg:mx-8 mx-2 my-4" id="members">
+                <div class="grid grid-cols-[repeat(2,auto)] md:grid-cols-[repeat(3,auto)] xl:grid-cols-[repeat(4,auto)] justify-center gap-4 lg:mx-8 mx-2 my-4" id="members">
                     @foreach($item as $i)
-                    <div class="border-2 border-dashed p-2 rounded-2xl max-w-56 min-w-44 max-h-[350px] backdrop-blur-sm">
+                    <div class="border-2 border-dashed p-2 rounded-2xl sm:w-60 min-w-44 max-h-[350px] backdrop-blur-sm place-items-center">
                         <p class="text-6xl">{{$i['division']}}</p>
                         <p class="text-4xl">{{$i['role']}}</p>
                         @if(is_null($i['display_photo']))
                         <p class="text-8xl">&quest;</p>
                         @else
-                        <img src="{{$i['display_photo']}}" alt="member_photo">
+                        <img src="https://lh3.googleusercontent.com/d/{{$i['display_photo']}}=s165" loading="lazy" referrerpolicy="no-referrer" alt="member_photo">
                         @endif
-                        <p class="sm:text-4xl text-3xl">{{$i['full_name']}}</p>
+                        @php
+                            $arr = array_filter(explode(" ", $i['full_name']));
+                            $name = "";
+                            for ($j=0;$j<count($arr); $j++) { 
+                                if($j<2) $name = $name . $arr[$j] . " ";
+                                else $name = $name . $arr[$j][0] . ". ";
+                            }
+                        @endphp
+                        <p class="sm:text-4xl text-3xl">{{$name}}</p>
                     </div>
                     @endforeach
                 </div>

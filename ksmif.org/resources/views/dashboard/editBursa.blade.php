@@ -12,6 +12,7 @@
             <input type="text" name="namaFile" id="namaFile" class="border-b" placeholder="Ex:UAS OOP" required>
         </div>
         <div class="m-2">
+            <p class="text-red-600">*Max upload file 20MB</p>
             <label for="file">Upload File:</label>
             <input type="file" name="file" id="file" class="border" required>
         </div>
@@ -91,7 +92,7 @@
 
         submitClick = true;
 
-        alert("Sabar mas masih upload!!!\nJangan spam ya, nanti bakal di notif kok kalo udh selesai / gagal :D");
+        alert("Sabar mas masih upload,\nJangan spam ya, nanti bakal di notif kok kalo udh selesai / gagal :D");
         let fData    = new FormData(this);
 
         $.ajax({

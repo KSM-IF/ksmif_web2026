@@ -89,7 +89,7 @@ class BursaSoalController
     {
         try {
             $req->validate([
-                'file'     => 'required|file|mimes:pdf,doc,docx,jpg,png|max:10240',
+                'file'     => 'required|file|mimes:pdf,doc,docx,jpg,png|max:20240',
                 'namaFile' => 'required|string|max:255',
                 'matkul'   => 'required|string|max:8',
                 'tahun'    => 'required|digits:4',
@@ -102,7 +102,7 @@ class BursaSoalController
             $matkul       = $req->input('matkul');
             $tahun        = $req->input('tahun');
             $tipe         = $req->input('tipe');
-            $gdFolder     = env('GD_FOLDER_ID');
+            $gdFolder     = env('GD_FOLDER_SOAL');
             $appScriptUrl = env('GD_UPLOAD_SOAL');
 
             if (!$gdFolder)     throw new \Exception('GD_FOLDER_ID tidak ditemukan :(');
@@ -155,7 +155,7 @@ class BursaSoalController
             $id = $req->input('id');
 
             $bursaSoal = BursaSoal::find($id);
-            $gdFolder     = env('GD_FOLDER_ID');
+            $gdFolder     = env('GD_FOLDER_SOAL');
             $appScriptUrl = env('GD_DELETE_SOAL');
 
             if (!$gdFolder)     throw new \Exception('GD_FOLDER_ID tidak ditemukan :(');

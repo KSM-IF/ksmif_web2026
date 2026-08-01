@@ -46,7 +46,7 @@
                     <td class="border p-2  max-w-20">{{$i['id']}}</td>
                     <td class="border p-2 ">{{$i['username']}}</td>
                     <td class="border p-2 ">{{$i['full_name']}}</td>
-                    <td class="border p-2 max-w-56"><img src="{{$i['display_photo']}}" alt=""></td>
+                    <td class="border p-2 max-w-56"><img src="https://lh3.googleusercontent.com/d/{{$i['display_photo']}}=s150" loading="lazy" referrerpolicy="no-referrer" alt="member_photo"></td>
                     <td class="border p-2  max-w-32">{{$i['NRP']}}</td>
                     <td class="border p-2 ">{{$i['email']}}</td>
                     <td class="border p-2 max-w-8">{{$i['division']}}</td>
@@ -142,7 +142,8 @@ $('.edit-btn').click(function (e) {
                 let divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
                 let roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
                 let roleReg = ['Koor', 'WaKoor', 'Anggota'];
-
+                console.log(e);
+                
                 divisionOption.forEach(element => {
                     if(element === e.division){ div += `<option value="${element}"selected>${element}</option>\n`;}
                     else{ div += `<option value="${element}">${element}</option>\n`;}
@@ -179,28 +180,29 @@ $('.edit-btn').click(function (e) {
                 });
 
                 formEditUser +=
-                `<form action="/dashboard/editMember/by?member-id=${e.id}"> 
-                    <tr>
-                        <td class="border p-2">
-                            <input type="number" name="periode" value="${e.period}">
-                        </td>
-                        <td class="border p-2">
-                            <select name="division" data-id="${e.id}" class="division">
-                                ${div}
-                            </select>
-                        </td>
-                        <td class="border p-2">
-                            <select name="role" data-id="${e.id}" class="role">
-                                ${role}
-                            </select>    
-                        </td>
-                        <td class="border p-2">
-                            <p>Current photo:${e.display_photo}</p>
-                            <input type="file" accept="image/*" class="border-b">
-                        </td>
-                        <td class="border p-2"><button class="editMember">Edit</button> | <button class="deleteMember">Delete</button></td>
-                    </tr>
-                </form>`;
+                `<tr class="member-row" data-id="${e.id}">
+                    <td class="border p-2">
+                        <input type="number" name="periode" value="${e.period}">
+                    </td>
+                    <td class="border p-2">
+                        <select name="division" class="division">
+                            ${div}
+                        </select>
+                    </td>
+                    <td class="border p-2">
+                        <select name="role" class="role">
+                            ${role}
+                        </select>    
+                    </td>
+                    <td class="border p-2">
+                        <p>Current photo: ${e.display_photo}</p>
+                        <input type="file" name="photo" accept="image/*" class="border-b">
+                    </td>
+                    <td class="border p-2">
+                        <button type="button" class="btnEditMember">Edit</button> | 
+                        <button type="button" class="btnDeleteMember">Delete</button>
+                    </td>
+                </tr>`;
             });
                         
             formEditUser += "</tbody></table>";
@@ -287,6 +289,47 @@ $('#editDataUser').on('click', '#deleteUser', function(e){
             }
         });
     }
+});
+
+$(document).on("click", ".btnEditMember", function (e) {
+    e.preventDefault();
+
+    let usrConfirm = confirm("Beneran mau update data nih 👉👈");
+    if(!usrConfirm) return 0;
+
+    let $row = $(this).closest('.member-row');
+    let memberId = $row.data('id');
+
+    let fData = new FormData();
+    fData.append('_method', 'PATCH');
+    fData.append('periode', $row.find('input[name="periode"]').val());
+    fData.append('division', $row.find('select[name="division"]').val());
+    fData.append('role', $row.find('select[name="role"]').val());
+
+    let photoFile = $row.find('input[name="photo"]')[0].files[0];
+    if (photoFile) {
+        fData.append('photo', photoFile);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: `/dashboard/editMember/by?member-id=${memberId}`,
+        data: fData,
+        dataType: "json",
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        success: function (res) {
+            alert(res.status);
+            console.log(res);
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
 });
 </script>
 @endsection

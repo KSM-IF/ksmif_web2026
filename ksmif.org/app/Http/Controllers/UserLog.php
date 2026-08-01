@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Members;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Http;
 
 
 class UserLog
@@ -76,25 +76,100 @@ class UserLog
     function editMemberPatch(Request $req){
         try{
             $id       = $req->query('id');
-            $username = $req->input('username');
-            $full_name= $req->input('fullname');
-            $nrp      = $req->input('nrp');
-            $email    = $req->input('email');
-            $status   = $req->input('status');
-            
-            $user = User::find($id);
-            $user->username = $username;
-            $user->full_name= $full_name;
-            $user->NRP      = $nrp;
-            $user->email    = $email;
-            $user->status   = (bool)$status;
-            
-            $tes = $user->save();
+            $memberId = $req->query('member-id');
 
-            return response()->json($tes);
+            if($id && !$memberId){
+                $username = $req->input('username');
+                $full_name= $req->input('fullname');
+                $nrp      = $req->input('nrp');
+                $email    = $req->input('email');
+                $status   = $req->input('status');
+                
+                $user = User::find($id);
+                $user->username = $username;
+                $user->full_name= $full_name;
+                $user->NRP      = $nrp;
+                $user->email    = $email;
+                $user->status   = (bool)$status;
+
+                $tes = $user->save();
+
+                return response()->json($tes);
+            }else if($memberId && !$id){
+                $periode = $req->input('periode');
+                $division= $req->input('division');
+                $photo   = $req->file('photo');
+                $role    = $req->input('role');
+                $gdFolder  = env('GD_FOLDER_PHOTO');
+                $uploadUrl = env('GD_UPLOAD_PHOTO');
+                $deleteUrl = env('GD_DELETE_PHOTO');
+
+                $member = Members::find($memberId);
+                $member->period   = $periode;
+                $member->division = $division;
+                $member->role     = $role;
+                
+                if($photo){
+                    if (!$gdFolder)     throw new \Exception('GD_FOLDER_PHOTO tidak ditemukan :(');
+                    if (!$uploadUrl) throw new \Exception('GD_UPLOAD_PHOTO tidak ditemukan :(');
+                    if (!$deleteUrl) throw new \Exception('GD_DELETE_PHOTOtidak ditemukan :(');
+                    $user     = User::find($member->users_id);
+                    $namaFile = "{$user->NRP}-{$periode}";
+
+                    if(blank($member->display_photo)){
+                        $response = Http::timeout(60)
+                            ->asJson()
+                            ->post($uploadUrl, [
+                                'fileName'   => $namaFile,
+                                'fileBase64' => base64_encode($photo->getContent()),
+                                'folderId'   => $gdFolder,
+                                'mimeType'   => $photo->getMimeType() ?: 'image/*',
+                        ]);
+                        $result = $response->json();
+                        if (!$response->successful() || !($result['success'] ?? false)) {
+                            throw new \Exception(
+                                $result['error'] ?? 'Apps Script gagal memproses file'
+                            );
+                        }
+
+                    }else{
+                        $response = Http::timeout(60)
+                            ->asJson()
+                            ->post($uploadUrl, [
+                                'fileName'   => $namaFile,
+                                'fileBase64' => base64_encode($photo->getContent()),
+                                'folderId'   => $gdFolder,
+                                'mimeType'   => $photo->getMimeType() ?: 'image/*',
+                        ]);
+
+                        $result = $response->json();
+                        if (!$response->successful() || !($result['success'] ?? false)) {
+                            throw new \Exception(
+                                $result['error'] ?? 'Apps Script gagal memproses file'
+                            );
+                        }
+
+                        $responseHapus = Http::timeout(60)
+                            ->asJson()
+                            ->post($deleteUrl,[
+                                'fileId'   => $member->display_photo
+                        ]);
+                    }
+
+                    $member->display_photo = $result['fileId'];
+                }
+
+                $member->save();
+
+                $data = [
+                    'status' => "berhasil update data",
+                    'photo' => $photo
+                ];
+                return response()->json($data);
+            }
         }catch(Exception $ex){
             $data = ['err' => $ex->getMessage()];
-            return view("errors.{$ex->getCode()}",compact('data'));
+            return response()->json($data, 500);
         }
     }
 
