@@ -30,7 +30,7 @@ class UserLog
                     ];
             }else{throw new Exception("Invalid username or password",0);}
             return redirect("/dashboard/editMember",302)->with($data);
-            // return response()->json($data);
+            return response()->json($data);
         }catch(Exception $ex){
             $data = ['err' => $ex->getMessage()];
             if($ex->getCode() == 0) return response()->json($data);
@@ -38,17 +38,32 @@ class UserLog
         }
     }
 
-    function editMember(){
+    function editMember(Request $req){
         try{
-            $now = (time() <= strtotime('01-09-2026')) ? '2025':'2026';
-            $member      = User::join('members', 'users.id', '=', 'members.users_id')
-                            ->where('period', $now) 
-                            ->get();
+            $periode = $req->query('periode');
+            $divisi  = $req->query('divisi');
+            $data = [];
+            $member = User::query()
+                            ->join('members', 'users.id', '=', 'members.users_id')
+                            ->select('users.*', 'members.*', 'users.id as user_id', 'members.id as member_id');
+
+            if(!$periode && !$divisi){
+                $now = (time() <= strtotime('01-10-2026')) ? '2025':'2026';
+                $member->where('period', $now);
+            }else{
+                $member->where('period', $periode);
+                if($divisi != 'ALL') $member->where('division', $divisi);
+                $data += [
+                    'tahun' => $periode,
+                    'divisi'=> $divisi
+                ];
+            }
+            $hasil       = $member->get();
             $allPeriode  = Members::pluck('period')->unique()->toArray();
-            $allDivision = ['None','BPH', 'IRD', 'PRD', 'HRDD', 'CDD'];
-            $data = [
+            $allDivision = ['ALL','BPH', 'IRD', 'PRD', 'HRDD', 'CDD'];
+            $data += [
                 'userLogin'  => Auth::user(),
-                'member'     => $member,
+                'member'     => $hasil,
                 'allPeriode' => $allPeriode,
                 'allDivision'=> $allDivision,
             ];
@@ -78,7 +93,7 @@ class UserLog
             $id       = $req->query('id');
             $memberId = $req->query('member-id');
 
-            if($id && !$memberId){
+            if($req->filled('id')){
                 $username = $req->input('username');
                 $full_name= $req->input('fullname');
                 $nrp      = $req->input('nrp');
@@ -95,7 +110,7 @@ class UserLog
                 $tes = $user->save();
 
                 return response()->json($tes);
-            }else if($memberId && !$id){
+            }else if($req->filled('member-id')){
                 $periode = $req->input('periode');
                 $division= $req->input('division');
                 $photo   = $req->file('photo');
@@ -110,7 +125,7 @@ class UserLog
                 $member->role     = $role;
                 
                 if($photo){
-                    if (!$gdFolder)     throw new \Exception('GD_FOLDER_PHOTO tidak ditemukan :(');
+                    if (!$gdFolder)  throw new \Exception('GD_FOLDER_PHOTO tidak ditemukan :(');
                     if (!$uploadUrl) throw new \Exception('GD_UPLOAD_PHOTO tidak ditemukan :(');
                     if (!$deleteUrl) throw new \Exception('GD_DELETE_PHOTOtidak ditemukan :(');
                     $user     = User::find($member->users_id);
@@ -193,6 +208,14 @@ class UserLog
             }else if($req->filled('memberId')){
                 $id = $req->query('memberId');
                 $member = Members::find($id);
+                $deleteUrl = env('GD_DELETE_PHOTO');
+                
+                $responseHapus = Http::timeout(60)
+                            ->asJson()
+                            ->post($deleteUrl,[
+                                'fileId'   => $member->display_photo
+                ]);
+
                 $member->delete();
                 $data = ['member'=>$member];
                 return response()->json($data);
@@ -200,6 +223,58 @@ class UserLog
         } catch (Exception $ex) {
             $data = ['err' => $ex->getMessage()];
             return view("errors.{$ex->getCode()}",compact('data'));
+        }
+    }
+
+    function addMemberData(Request $req){
+        try{
+            $member  = new Members;
+            $usrId   = $req->input('usrId');
+            $periode = $req->input('periode');
+            $divisi  = $req->input('division');
+            $role    = $req->input('role');
+            $photo   = $req->file('photo');
+            $gdFolder  = env('GD_FOLDER_PHOTO');
+            $uploadUrl = env('GD_UPLOAD_PHOTO');
+            
+            $member->users_id = $usrId;
+            $member->period   = $periode;
+            $member->division = $divisi;
+            $member->role     = $role;
+            
+
+            if($photo){
+                if (!$gdFolder)  throw new \Exception('GD_FOLDER_PHOTO tidak ditemukan :(');
+                if (!$uploadUrl) throw new \Exception('GD_UPLOAD_PHOTO tidak ditemukan :(');
+                
+                $user     = User::find($member->users_id);
+                $namaFile = "{$user->NRP}-{$periode}";
+
+                $response = Http::timeout(60)
+                            ->asJson()
+                            ->post($uploadUrl, [
+                                'fileName'   => $namaFile,
+                                'fileBase64' => base64_encode($photo->getContent()),
+                                'folderId'   => $gdFolder,
+                                'mimeType'   => $photo->getMimeType() ?: 'image/*',
+                        ]);
+
+                $result = $response->json();
+                if (!$response->successful() || !($result['success'] ?? false)) {
+                    throw new \Exception(
+                        $result['error'] ?? 'Apps Script gagal memproses file'
+                    );
+                }
+
+                $data['res']=$result;
+                $member->display_photo = $result['fileId'];
+            }
+            $member->save();
+            $data[] = ['status' => "data member berhasil di tambahkan"];
+            return response()->json($data);
+        }catch(Exception $ex){
+            $data = ['err' => $ex->getMessage()];
+            return response()->json($data, 500);
         }
     }
 }

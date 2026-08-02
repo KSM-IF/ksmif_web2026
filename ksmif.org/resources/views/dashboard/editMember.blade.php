@@ -6,25 +6,31 @@
         <thead>
             <tr><th colspan="10" class="border">Edit Members</th></tr>
             <tr>
-                <form action="" method="POST">
                     @csrf
                     <th colspan="5" class="border">
                         <label for="tahun">Tahun</label>
-                        <select name="tahun" id="tahun">
-                            @foreach ($data['allPeriode'] as $i)    
-                            <option value="{{$i}}">{{$i}}</option>
+                        <select name="tahun" id="tahun" class="memberSelector">
+                            @foreach ($data['allPeriode'] as $i)
+                                @if(isset($data['tahun']) && $i == $data['tahun'])
+                                    <option value="{{$i}}" selected>{{$i}}</option>
+                                @else
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endif    
                             @endforeach
                         </select>
                     </th>
                     <th colspan="5" class="border">
                         <label for="divisi">Divisi</label>
-                        <select name="divisi" id="divisi">
-                            @foreach ($data['allDivision'] as $i)    
-                            <option value="{{$i}}">{{$i}}</option>
+                        <select name="divisi" id="divisi" class="memberSelector">
+                            @foreach ($data['allDivision'] as $i)
+                                @if(isset($data['tahun']) && $i == $data['divisi'])
+                                    <option value="{{$i}}" selected>{{$i}}</option>
+                                @else
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endif    
                             @endforeach
                         </select>
                     </th>
-                </form>
             </tr>
             <tr>
                 <th class="border p-2">ID</th>
@@ -57,7 +63,7 @@
                         @endif
                     </td>
                     <td class="border p-2">
-                        <button class='edit-btn border-b' type="button" data-id="{{$i['id']}}">EDIT</button>
+                        <button class='edit-btn border-b' type="button" data-id="{{$i['user_id']}}">EDIT</button>
                     </td>
             </tr>
             @endforeach
@@ -71,13 +77,17 @@
 
 <script>
 let user;
+let divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
+let roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
+let roleReg = ['Koor', 'WaKoor', 'Anggota'];
+
 $('.edit-btn').click(function (e) { 
     e.preventDefault();
     let id = $(this).data('id');
     
     $.ajax({
         type: "GET",
-        url: "/dashboard/editMember/by?id="+id,
+        url: "/dashboard/editMember/user/by?id="+id,
         success: function (response) {
             user = response.user;
             let userStatus;
@@ -139,11 +149,8 @@ $('.edit-btn').click(function (e) {
 
             (user.members).forEach(e => {
                 let div ='';
-                let divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
-                let roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
-                let roleReg = ['Koor', 'WaKoor', 'Anggota'];
                 console.log(e);
-                
+              
                 divisionOption.forEach(element => {
                     if(element === e.division){ div += `<option value="${element}"selected>${element}</option>\n`;}
                     else{ div += `<option value="${element}">${element}</option>\n`;}
@@ -162,35 +169,18 @@ $('.edit-btn').click(function (e) {
                     });
                 }
 
-                $('#editDataUser').on('change','.division',function (){  
-                    let idMember = $(this).data('id');
-                    let role ='';
-                    if($(this).val() == 'BPH'){
-                        roleBPH.forEach(element =>{
-                                if(e.role == element){role += `<option value='${element}'selected>${element}</option>\n`;}
-                                else{ role += `<option value='${element}'>${element}</option>\n`;}
-                        });
-                    }else{
-                        roleReg.forEach(element =>{
-                                if(e.role == element){role += `<option value='${element}'selected>${element}</option>\n`;}
-                                else{ role += `<option value='${element}'>${element}</option>\n`;}
-                            });
-                    }
-                    $(`.role[data-id='${idMember}']`).html(role);
-                });
-
                 formEditUser +=
                 `<tr class="member-row" data-id="${e.id}">
                     <td class="border p-2">
-                        <input type="number" name="periode" value="${e.period}">
+                        <input type="number" name="periode" value="${e.period}" required>
                     </td>
                     <td class="border p-2">
-                        <select name="division" class="division">
+                        <select name="division" class="division" data-id="${e.id}" required>
                             ${div}
                         </select>
                     </td>
                     <td class="border p-2">
-                        <select name="role" class="role">
+                        <select name="role" class="role" data-id="${e.id}" required>
                             ${role}
                         </select>    
                     </td>
@@ -205,13 +195,70 @@ $('.edit-btn').click(function (e) {
                 </tr>`;
             });
                         
-            formEditUser += "</tbody></table>";
+            formEditUser += `
+            <tr id="newMember">
+                <td colspan="5" class="border">
+                    <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
+                </td>
+            </tr>
+            </tbody></table>`;
 
             $('#tableUsers').attr("hidden",true);
             $('#editDataUser').removeAttr('hidden');
             $('#editDataUser').html(formEditUser);
         }
     });
+});
+
+$('#editDataUser').on('change', '.division', function () {
+    let div = $(this).val();
+    let id = $(this).data('id');
+    let role = '';
+    if(div == "BPH"){
+        roleBPH.forEach(element =>{
+            role += `<option value="${element}">${element}</option>\n`;
+        });
+    }else{
+        roleReg.forEach(element =>{
+             role += `<option value="${element}">${element}</option>\n`;
+        });
+    }
+    $(`.role[data-id="${id}"]`).html(role);
+});
+
+let newMemberCount = 0;
+$('#editDataUser').on('click', '#newMember', function(){
+    let div = '';
+
+    divisionOption.forEach(element => {
+         div += `<option value="${element}">${element}</option>\n`;
+    });
+
+    $(this).before(
+        `<tr class="member-row" data-id="new${newMemberCount}">
+                    <td class="border p-2">
+                        <input type="number" name="periode" required>
+                    </td>
+                    <td class="border p-2">
+                        <select name="division" class="division" data-id="new${newMemberCount}" required>
+                            <option value="" disabled selected hidden>pilih divisi</option>
+                            ${div}
+                        </select>
+                    </td>
+                    <td class="border p-2">
+                        <select name="role" class="role" data-id="new${newMemberCount}" required>
+                            <option value="" disabled selected hidden>pilih divisi dulu</option>
+                        </select>    
+                    </td>
+                    <td class="border p-2">
+                        <input type="file" name="photo" accept="image/*" class="border-b">
+                    </td>
+                    <td class="border p-2">
+                        <button type="button" class="btnSaveMember">Save</button>
+                    </td>
+                </tr>`
+    );
+    newMemberCount++;
 });
 
 $('#editDataUser').on('click', '#saveUser', function(e){
@@ -228,7 +275,7 @@ $('#editDataUser').on('click', '#saveUser', function(e){
     if(usrConfirm){
         $.ajax({
             type: "PATCH",
-            url: `/dashboard/editMember/by?id=${user.id}`,
+            url: `/dashboard/editMember/user/by?id=${user.id}`,
             data: JSON.stringify(formData),
             dataType: "json",
             headers:{
@@ -271,7 +318,7 @@ $('#editDataUser').on('click', '#deleteUser', function(e){
     if(usrConfirm && usrConfirm2){
         $.ajax({
             type: "DELETE",
-            url: `/dashboard/editMember/by?id=${user.id}`,
+            url: `/dashboard/editMember/user/by?id=${user.id}`,
             data: JSON.stringify(formData),
             dataType: "json",
             headers:{
@@ -330,6 +377,49 @@ $(document).on("click", ".btnEditMember", function (e) {
             console.error(xhr.responseText);
         }
     });
+});
+
+$(document).on("click", ".btnSaveMember", function (e) {
+    e.preventDefault();
+
+    let $row = $(this).closest('.member-row');
+    let fData = new FormData();2025
+    fData.append('periode', $row.find('input[name="periode"]').val());
+    fData.append('division', $row.find('select[name="division"]').val());
+    fData.append('role', $row.find('select[name="role"]').val());
+    fData.append('usrId', `${user.id}`);
+
+    let photoFile = $row.find('input[name="photo"]')[0].files[0];
+    if (photoFile) {
+        fData.append('photo', photoFile);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: `/dashboard/editMember/new`,
+        data: fData,
+        dataType: "json",
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        success: function (res) {
+            alert(res.status);
+            console.log(res);
+            // location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+});
+
+$(".memberSelector").on("change", function(){
+    let tahun = $("#tahun").val();
+    let divisi= $("#divisi").val();
+
+    window.location.href = `/dashboard/editMember?periode=${tahun}&divisi=${divisi}`;
 });
 </script>
 @endsection
