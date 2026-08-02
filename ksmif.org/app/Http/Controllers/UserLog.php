@@ -205,8 +205,8 @@ class UserLog
                          'status' => true
                         ];
                 return response()->json($data);
-            }else if($req->filled('memberId')){
-                $id = $req->query('memberId');
+            }else if($req->filled('member-id')){
+                $id = $req->query('member-id');
                 $member = Members::find($id);
                 $deleteUrl = env('GD_DELETE_PHOTO');
                 
@@ -217,7 +217,7 @@ class UserLog
                 ]);
 
                 $member->delete();
-                $data = ['member'=>$member];
+                $data = ['status'=> 'DATA BERHASIL DIHAPUS!!',];
                 return response()->json($data);
             }
         } catch (Exception $ex) {
@@ -236,7 +236,8 @@ class UserLog
             $photo   = $req->file('photo');
             $gdFolder  = env('GD_FOLDER_PHOTO');
             $uploadUrl = env('GD_UPLOAD_PHOTO');
-            
+            $data    = [];
+
             $member->users_id = $usrId;
             $member->period   = $periode;
             $member->division = $divisi;
@@ -270,7 +271,7 @@ class UserLog
                 $member->display_photo = $result['fileId'];
             }
             $member->save();
-            $data[] = ['status' => "data member berhasil di tambahkan"];
+            $data += ['status' => "data member berhasil di tambahkan"];
             return response()->json($data);
         }catch(Exception $ex){
             $data = ['err' => $ex->getMessage()];

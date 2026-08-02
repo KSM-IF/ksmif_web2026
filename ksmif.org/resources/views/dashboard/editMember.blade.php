@@ -77,6 +77,7 @@
 
 <script>
 let user;
+let submitClick = false;
 let divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
 let roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
 let roleReg = ['Koor', 'WaKoor', 'Anggota'];
@@ -338,9 +339,46 @@ $('#editDataUser').on('click', '#deleteUser', function(e){
     }
 });
 
+$(document).on("click", ".btnDeleteMember", function (e) {
+    e.preventDefault();
+    if(submitClick){
+        alert("SABAR ANYING MASIH UPDATE!!!\n😊");
+        return 0;
+    }
+    submitClick = true;
+
+    let usrConfirm = confirm("Beneran mau delete data nih 👉👈");
+    if(!usrConfirm) return 0;
+
+    let $row = $(this).closest('.member-row');
+    let memberId = $row.data('id');
+
+    $.ajax({
+        type: "DELETE",
+        url: `/dashboard/editMember/user/by?member-id=${memberId}`,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        success: function (res) {
+            alert(res.status);
+            // console.log(res.status);
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+});
+
 $(document).on("click", ".btnEditMember", function (e) {
     e.preventDefault();
-
+    if(submitClick){
+        alert("SABAR ANYING MASIH UPLOADD!!!\n😊");
+        return 0;
+    }
+    submitClick = true;
+    
     let usrConfirm = confirm("Beneran mau update data nih 👉👈");
     if(!usrConfirm) return 0;
 
@@ -407,7 +445,7 @@ $(document).on("click", ".btnSaveMember", function (e) {
         success: function (res) {
             alert(res.status);
             console.log(res);
-            // location.reload();
+            location.reload();
         },
         error: function (xhr, status, error) {
             console.error(xhr.responseText);
