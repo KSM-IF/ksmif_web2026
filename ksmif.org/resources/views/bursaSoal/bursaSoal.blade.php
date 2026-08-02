@@ -42,9 +42,13 @@
             <label for="year">Tahun:</label>
             <select name="year" class="underline">
                 <option value="all">ALL</option>
-                @foreach($data['tahun'] as $i)
-                <option value="{{$i}}">{{$i}}</option>
-                @endforeach
+                @if(isset($data['tahun']))
+			@foreach($data['tahun'] as $i)
+                	<option value="{{$i}}">{{$i}}</option>
+                	@endforeach
+		@else
+			<option value="">none</option>
+		@endif
             </select>
             <br class="sm:hidden">
             <label for="matkul">Matkul:</label>
