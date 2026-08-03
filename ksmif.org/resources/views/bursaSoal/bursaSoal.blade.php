@@ -43,16 +43,16 @@
             <select name="year" class="underline">
                 <option value="all">ALL</option>
                 @if(isset($data['tahun']))
-			@foreach($data['tahun'] as $i)
+			        @foreach($data['tahun'] as $i)
                 	<option value="{{$i}}">{{$i}}</option>
                 	@endforeach
-		@else
-			<option value="">none</option>
-		@endif
+		        @else
+			    <option value="">none</option>
+		        @endif
             </select>
             <br class="sm:hidden">
             <label for="matkul">Matkul:</label>
-            <select name="matkul" class="underline w-56">
+            <select name="matkul" class="underline w-56 text-[1.5rem]">
                 <option value="all">ALL</option>
                 @foreach ($data['matkul'] as $i)
                 <option value="{{$i->id}}">{{$i->nama_matkul}}</option>

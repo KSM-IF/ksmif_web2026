@@ -58,7 +58,7 @@
 </nav>
 
 <div id="loginPanel" class="fixed top-0 z-7 h-screen w-screen grid-cols-1 place-content-center place-items-center backdrop-blur-sm font-['Jersey10'] hidden">
-    <form method="POST" action="/user-login" class="bg-white h-96 w-96 border rounded-2xl text-center text-4xl">
+    <form id="login" method="POST" action="/user-login" class="bg-white h-96 w-96 border rounded-2xl text-center text-4xl">
         @csrf
         <img id="closeLoginBtn" src="/images/icon/close.svg" alt="closeBtn" class="absolute ml-2 my-2">
         <p class="text-5xl my-3">Welcome!</p>
@@ -140,6 +140,25 @@
             input.type = "password";
         }
     }
+
+    $('#login').on("submit", function(e){
+        e.preventDefault();
+        let fData = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "/user-login",
+            data: fData,
+            dataType: "json",
+            success: function (res) {
+                if(res.err){
+                    alert(res.err);
+                }
+                if(res.user){
+                    window.location.href = res.redirected;
+                }
+            }
+        });
+    });
 </script>
 <style>
     .nav-hover{

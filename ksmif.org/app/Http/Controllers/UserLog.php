@@ -26,10 +26,11 @@ class UserLog
                     'user' => $user,
                     'token'=> $token,
                     'token_type' => 'bearer',
-                    'expires_in' => auth('api')->factory()->getTTL() * 60
+                    'expires_in' => auth('api')->factory()->getTTL() * 60,
+                    'redirected' => "/dashboard/editMember"
                     ];
             }else{throw new Exception("Invalid username or password",0);}
-            return redirect("/dashboard/editMember",302)->with($data);
+            // return redirect("/dashboard/editMember",302)->with($data);
             return response()->json($data);
         }catch(Exception $ex){
             $data = ['err' => $ex->getMessage()];
