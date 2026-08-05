@@ -117,7 +117,7 @@ class BursaSoalController
             if (!$gdFolder)     throw new \Exception('GD_FOLDER_ID tidak ditemukan :(');
             if (!$appScriptUrl) throw new \Exception('APPSCRIPT_URL tidak ditemukan :(');
 
-            $response = Http::timeout(60)
+            $response = Http::timeout(120)
                             ->asJson()
                             ->post($appScriptUrl, [
                                 'fileName'   => $namaFile,
@@ -172,7 +172,7 @@ class BursaSoalController
 
             if(!$bursaSoal) throw new \Exception('data bursa soal tidak ditemukan !!');
             \Log::info("kirim path :".$bursaSoal->path);
-            $response = Http::timeout(60)
+            $response = Http::timeout(120)
                             ->asJson()
                             ->post($appScriptUrl,[
                                 'fileId'   => $bursaSoal->path

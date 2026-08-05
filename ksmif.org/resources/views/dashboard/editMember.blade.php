@@ -398,7 +398,7 @@ $(document).on("click", ".btnEditMember", function (e) {
 
     $.ajax({
         type: "POST",
-        url: `/dashboard/editMember/by?member-id=${memberId}`,
+        url: `/dashboard/editMember/user/by?member-id=${memberId}`,
         data: fData,
         dataType: "json",
         processData: false,
