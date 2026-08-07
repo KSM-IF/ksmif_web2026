@@ -89,7 +89,7 @@ class UserLog
         }
     }
 
-    function editMemberPatch(Request $req){
+   function editMemberPatch(Request $req){
         try{
             $id       = $req->query('id');
             $memberId = $req->query('member-id');
@@ -111,11 +111,13 @@ class UserLog
                 $tes = $user->save();
 
                 return response()->json($tes);
-            }else if($req->filled('member-id')){
+                
+            } else if($req->filled('member-id')){
                 $periode = $req->input('periode');
                 $division= $req->input('division');
                 $photo   = $req->file('photo');
                 $role    = $req->input('role');
+                
                 $gdFolder  = env('GD_FOLDER_PHOTO');
                 $uploadUrl = env('GD_UPLOAD_PHOTO');
                 $deleteUrl = env('GD_DELETE_PHOTO');
@@ -128,47 +130,35 @@ class UserLog
                 if($photo){
                     if (!$gdFolder)  throw new \Exception('GD_FOLDER_PHOTO tidak ditemukan :(');
                     if (!$uploadUrl) throw new \Exception('GD_UPLOAD_PHOTO tidak ditemukan :(');
-                    if (!$deleteUrl) throw new \Exception('GD_DELETE_PHOTOtidak ditemukan :(');
+                    if (!$deleteUrl) throw new \Exception('GD_DELETE_PHOTO tidak ditemukan :(');
+                    
                     $user     = User::find($member->users_id);
                     $namaFile = "{$user->NRP}-{$periode}";
 
-                    if(blank($member->display_photo)){
-                        $response = Http::timeout(60)
-                            ->asJson()
-                            ->post($uploadUrl, [
-                                'fileName'   => $namaFile,
-                                'fileBase64' => base64_encode($photo->getContent()),
-                                'folderId'   => $gdFolder,
-                                'mimeType'   => $photo->getMimeType() ?: 'image/*',
-                        ]);
-                        $result = $response->json();
-                        if (!$response->successful() || !($result['success'] ?? false)) {
-                            throw new \Exception(
-                                $result['error'] ?? 'Apps Script gagal memproses file'
-                            );
-                        }
+                    
+                    $response = Http::withOptions(['allow_redirects' => true])
+                        ->timeout(60)
+                        ->asJson()
+                        ->post($uploadUrl, [
+                            'fileName'   => $namaFile,
+                            'fileBase64' => base64_encode($photo->getContent()),
+                            'folderId'   => $gdFolder,
+                            'mimeType'   => $photo->getMimeType() ?: 'image/*',
+                    ]);
 
-                    }else{
-                        $response = Http::timeout(60)
-                            ->asJson()
-                            ->post($uploadUrl, [
-                                'fileName'   => $namaFile,
-                                'fileBase64' => base64_encode($photo->getContent()),
-                                'folderId'   => $gdFolder,
-                                'mimeType'   => $photo->getMimeType() ?: 'image/*',
-                        ]);
+                    $result = $response->json();
 
-                        $result = $response->json();
-                        if (!$response->successful() || !($result['success'] ?? false)) {
-                            throw new \Exception(
-                                $result['error'] ?? 'Apps Script gagal memproses file'
-                            );
-                        }
+                    if (!$response->successful() || empty($result['success'])) {
+                        $errorMsg = $result['error'] ?? $response->body();
+                        throw new \Exception("GAS Error (Status: {$response->status()}): " . $errorMsg);
+                    }
 
-                        $responseHapus = Http::timeout(60)
+                    if (!blank($member->display_photo)) {
+                        Http::withOptions(['allow_redirects' => true])
+                            ->timeout(60)
                             ->asJson()
-                            ->post($deleteUrl,[
-                                'fileId'   => $member->display_photo
+                            ->post($deleteUrl, [
+                                'fileId' => $member->display_photo
                         ]);
                     }
 
@@ -179,11 +169,11 @@ class UserLog
 
                 $data = [
                     'status' => "berhasil update data",
-                    'photo' => $photo
+                    'photo'  => $photo ? true : false
                 ];
                 return response()->json($data);
             }
-        }catch(Exception $ex){
+        }catch(\Exception $ex){
             $data = ['err' => $ex->getMessage()];
             return response()->json($data, 500);
         }

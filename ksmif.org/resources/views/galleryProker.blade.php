@@ -99,13 +99,13 @@
                 </div>
                 <div class="p-6 flex flex-col grow">
                     <div class="flex items-center text-sm text-gray-500 mb-3">
-                        <span class="font-medium text-gray-600">UBAYA Training Center</span>
+                        <span class="font-medium text-gray-600">SMAK St.Agnes Surabaya & SMAK Frateran</span>
                         <span class="mx-2">•</span>
                         <time>7 - 8 Maret 2026</time>
                     </div>
-                    <h2 class="text-xl  text-gray-900 mb-2 leading-tight">Informatics Gathering</h2>
+                    <h2 class="text-xl  text-gray-900 mb-2 leading-tight">Coding To Highschoolers (CTHS)</h2>
                     <p class="text-gray-600 mb-6 grow line-clamp-3">
-                        Informatics Gathering merupakan kegiatan kebersamaan mahasiswa Teknik Informatika UBAYA yang dirancang sebagai ruang untuk saling mengenal, terhubung, dan membangun relasi lintas angkatan. Melalui kegiatan ini, kita diajak untuk berbagi cerita, pengalaman, dan menciptakan momen hangat yang bermakna bersama
+                        KSM Informatika hadir di SMAK Santa Agnes dan SMAK Frateran untuk berbagi ilmu seputar dunia pemrograman 👨‍💻👩‍💻. Di sini adik-adik belajar cara mengvisualisasi data dengan Mathplotlib dari python. Dari yang awalnya belum pernah ngoding, sampai akhirnya bisa menngvisualisasikan data 🚀🔥
                     </p>
                     <a href="/tes" class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
                         Lihat Dokumentasi 
