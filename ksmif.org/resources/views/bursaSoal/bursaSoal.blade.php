@@ -25,7 +25,7 @@
 }
 </style>
 
-<div class="font-['Jersey10'] grid xl:grid-cols-2 md:mx-24 mx-16 my-16 min-h-72">
+<header class="font-['Jersey10'] grid xl:grid-cols-2 md:mx-24 mx-10 my-16 min-h-72">
     <div id="title" class="w-fit min-h-44 m-0">
         <p class="text-4xl hidden">WELCOME TO</p>
         <p class="xl:text-9xl text-7xl hidden">BURSA SOAL</p>
@@ -60,7 +60,7 @@
             </select>
         </div>
     </form>
-</div>
+</header>
 
 
 <div id="selector" class="mx-1.5 border-2 border-dashed grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 bg-[#ffffff99] backdrop-blur-xs mb-4 rounded-2xl place-items-center">

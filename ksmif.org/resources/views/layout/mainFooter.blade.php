@@ -54,9 +54,5 @@ function responsiveDocs(){
         $('#mobile-nav-menu').attr('hidden', 'true');
         $('footer').addClass('flex');
     }
-    
-    if(winHeight<600){
-        $('nav').css('margin-top', '300px');
-    }
 }
 </script>

@@ -43,7 +43,7 @@
     </style>
 
     {{-- HEADER --}}
-    <div id="header-panel" class="h-screen justify-center-safe place-items-center grid sm:mt-[5%] font-['Jersey10'] mt-[20%]">
+    <header id="header-panel" class="h-screen justify-center-safe place-items-center grid sm:mt-[5%] font-['Jersey10'] mt-[20%]">
         <div id="header" class="grid justify-center place-items-center">
             <iframe src="images/icon/ksmHytam.svg" type="image/svg+xml"></iframe>
             <h1 class="sm:text-3xl sm:mt-3 text-2xl">Kelompok Studi Mahasiswa Informatika</h1>
@@ -60,7 +60,7 @@
             <p>Scroll This Page</p>
             <img class="ml-11 w-10 relative" src="images/icon/arrow.svg" type="image/svg+xml" alt="arrow">
         </div>
-    </div>
+    </header>
 
     {{-- NAVBAR --}}
     @include ('layout.mainNavbar')
@@ -70,6 +70,8 @@
         <h2 class="text-6xl">ABOUT US</h2>
         <p>An Informatics Engineering student organization, established on the University of Surabaya Campus since 1998. We are located at the TF 4.10 Building, University of Surabaya Tenggilis.</p>
     </div>
+
+
 
     {{-- Our Vision --}}
     <div id="our-vision" class="font-['Jersey10'] md:text-4xl text-2xl grid place-items-center m-14 sm:p-14">

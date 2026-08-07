@@ -9,6 +9,10 @@
                 <img class="h-9" src="/images/icon/people.svg" alt="" type="image/svg+xml">
                 <p>Our Team</p>
             </a>
+            <a href="/gallery" class="nav-link flex p-2.5 w-fit rounded-2xl">
+                <img class="h-9" src="/images/icon/rocket.svg" alt="" type="image/svg+xml">
+                <p>Gallery Proker</p>
+            </a>
             <a href="/bursa-soal" class="nav-link flex p-2.5 w-fit rounded-2xl">
                 <img class="h-9" src="/images/icon/book.svg" alt="" type="image/svg+xml">
                 <p>Bursa Soal</p>
@@ -20,8 +24,8 @@
                 Dashboard
             </a>
             @else    
-            <a id="desktop-loginBtn" class="bg-black text-white p-2 rounded-2xl">
-                SignUp / LogIn
+            <a id="desktop-loginBtn" class="bg-black text-white p-2 px-6 rounded-2xl">
+                LogIn
             </a>
             @endif
         </div>
@@ -40,6 +44,10 @@
                 <img class="h-9" src="/images/icon/people.svg" alt="" type="image/svg+xml">
                 <p>Our Team</p>
             </a>
+            <a href="/gallery" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
+                <img class="h-9" src="/images/icon/rocket.svg" alt="" type="image/svg+xml">
+                <p>Gallery Proker</p>
+            </a>
             <a href="/bursa-soal" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
                 <img class="h-9" src="/images/icon/book.svg" alt="" type="image/svg+xml">
                 <p>Bursa Soal</p>
@@ -50,7 +58,7 @@
             </a>
             @else  
             <a id="mobile-loginBtn" href="" class="nav-link flex p-2.5 w-full rounded-2xl border-b-2 shadow-sm shadow-gray-950">
-                Login / SignUp
+                LogIn
             </a>
             @endif
         </div>
@@ -98,9 +106,13 @@
         $('nav-link').removeClass('nav-click');
         $('.nav-link').eq(1).addClass('nav-click');
     }
+    else if (indexNav == 'gallery'){
+         $('nav-link').removeClass('nav-click');
+        $('.nav-link').eq(2).addClass('nav-click');
+    }
     else if(indexNav == 'bursaSoal'){
         $('nav-link').removeClass('nav-click');
-        $('.nav-link').eq(2).addClass('nav-click');
+        $('.nav-link').eq(3).addClass('nav-click');
     }
     else{
         $('nav-link').removeClass('nav-click');
@@ -110,8 +122,8 @@
     $("#mobile-loginBtn").click(function (e) { 
         e.preventDefault();
         $('#loginPanel').removeClass('hidden');
-        $('#mobile-nav-menu').attr('hidden', 'true');
-        mobileMenuClick = true;
+        $('#mobile-nav-menu').stop().slideUp();
+        mobileMenuClick = false;
     });
 
     $("#desktop-loginBtn").click(function (e) { 

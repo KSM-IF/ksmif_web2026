@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 //Route page
 Route::get('/',[MainController::class, 'homepage']);
 Route::get('/our-team',[MainController::class, 'getMember']);
+Route::get('/gallery', [MainController::class, 'gallery']);
 Route::get('/our-team/by',[MainController::class, 'getMemberBy']);
 Route::get('/bursa-soal',[BursaSoalController::class, 'bursaSoal']);
 Route::get('/bursa-soal/by', [BursaSoalController::class, 'bursaSoalBy']);

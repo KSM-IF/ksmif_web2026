@@ -162,6 +162,16 @@ class MainController extends Controller
         // return response()->json($data);
         return view('ourTeam', compact('data'));
     }
+
+    function gallery(){
+        try{
+            $data = ['navbar' => 'gallery', 'auth' => Auth::check()];
+            return view('galleryProker', compact('data'));
+        }catch(Exception $ex){
+            $data=['err'=> $ex->getMessage()];
+            return view("/errors.{$ex->getCode()}");
+        }
+    }
     
     function tesError(Request $req){
         $code = $req->query('code');

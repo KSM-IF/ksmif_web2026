@@ -1,11 +1,11 @@
 @extends('layout.app')
 
 @section('content')
-<div class="font-['Jersey10']">
-    <div class="text-center">
+<main class="font-['Jersey10']">
+    <header class="text-center">
         <h1 class="text-7xl">Meet Our Team</h1>
         <p class="text-3xl sm:mx-[5%] mx-2">We are comprised of dedicated departments working together to build an amazing community.</p>
-    </div>
+    </header>
 
     <form action="/our-team/by" method="GET" id="menuSelect" class="grid sm:grid-cols-4 grid-cols-2 place-items-center mx-auto pb-2 border-dashed border-4 rounded-2xl lg:w-[60%] w-[90%] sm:my-12 my-8 backdrop-blur-sm">
         <div class="text-center xl:text-4xl text-2xl">
@@ -97,5 +97,5 @@
                 </div>
             @endforeach
     </div>
-</div>
+</main>
 @endsection
