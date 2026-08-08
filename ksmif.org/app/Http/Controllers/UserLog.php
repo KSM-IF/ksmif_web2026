@@ -269,4 +269,23 @@ class UserLog
             return response()->json($data, 500);
         }
     }
+
+    function newUser(Request $req){
+        try{
+            $user = [ 'username'  => $req->input('username'),
+                      'password'  => $req->input('password'), 
+                      'full_name' => $req->input('full_name'),
+                      'email'     => $req->input('email'),
+                      'NRP'       => $req->input('NRP'),
+                      'status'    => true
+            ];
+
+            $result = User::create($user);
+            $data = ['result' => $result];
+            return response()->json($data);
+        }catch(Exception $ex){
+            $data = ['err' => $ex->getMessage()];
+            return response()->json($data, 500);
+        }
+    }
 }

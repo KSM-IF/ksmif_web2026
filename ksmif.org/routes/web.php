@@ -21,6 +21,7 @@ Route::get('/dashboard/editMember/user/by', [UserLog::class, 'editMemberGetData'
 Route::patch('/dashboard/editMember/user/by',[UserLog::class, 'editMemberPatch'])->middleware('checkMember');
 Route::delete('/dashboard/editMember/user/by', [UserLog::class, 'deleteUserData'])->middleware('checkMember');
 Route::post('/dashboard/editMember/new', [UserLog::class, 'addMemberData'])->middleware('checkMember');
+Route::post('/dashboard/newMember/user', [UserLog::class, 'newUser'])->middleware('checkMember');
 
 //dashboard edit bursa
 Route::get('/dashboard/editBursa', [BursaSoalController::class, 'editBursa'])->middleware('checkMember');
