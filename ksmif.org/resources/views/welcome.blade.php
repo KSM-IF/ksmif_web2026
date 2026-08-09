@@ -2,146 +2,163 @@
 
 @section('content')
     <style>
-        #arrow-scroll{
+        .animate-lompat {
             animation: lompat 1s infinite alternate;
         }
-        @keyframes lompat{
-            0%      {transform: translateY(0);}
-            100%    {transform: translateY(-30px);}
+        @keyframes lompat {
+            0%   { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
         }
 
         .text-focus-in {
-        -webkit-animation: text-focus-in 1.5s ease-in-out ;
-                animation: text-focus-in 1.5s ease-in-out ;
+            animation: text-focus-in 1.5s ease-in-out forwards;
         }
-
-    @-webkit-keyframes text-focus-in {
-        0% {
-            -webkit-filter: blur(12px);
-                    filter: blur(12px);
-            opacity: 0;
+        @keyframes text-focus-in {
+            0% {
+                filter: blur(12px);
+                opacity: 0;
+            }
+            100% {
+                filter: blur(0px);
+                opacity: 1;
+            }
         }
-        100% {
-            -webkit-filter: blur(0px);
-                    filter: blur(0px);
-            opacity: 1;
-        }
-    }
-
-    @keyframes text-focus-in {
-        0% {
-            -webkit-filter: blur(12px);
-                    filter: blur(12px);
-            opacity: 0;
-        }
-        100% {
-            -webkit-filter: blur(0px);
-                    filter: blur(0px);
-            opacity: 1;
-        }
-    }
     </style>
 
     {{-- HEADER --}}
-    <header id="header-panel" class="h-screen justify-center-safe place-items-center grid sm:mt-[5%] font-['Jersey10'] mt-[20%]">
-        <div id="header" class="grid justify-center place-items-center">
-            <iframe src="images/icon/ksmHytam.svg" type="image/svg+xml"></iframe>
-            <h1 class="sm:text-3xl sm:mt-3 text-2xl">Kelompok Studi Mahasiswa Informatika</h1>
-            <h2 class="sm:text-3xl text-2xl">UNIVERSITAS SURABAYA</h2>
-            <h2 class="sm:text-6xl text-4xl">"We Not Me"</h2>
+    <header id="header-panel" class="relative min-h-screen flex flex-col justify-center items-center font-['Jersey10'] px-4 pt-0">
+        <div id="header" class="flex flex-col items-center text-center opacity-0">
+            <img src="images/icon/ksmHytam.svg" alt="Logo KSM" class="w-60 mb-6">
+            
+            <h1 class="text-2xl sm:text-3xl tracking-wide">Kelompok Studi Mahasiswa Informatika</h1>
+            <h2 class="text-2xl sm:text-3xl mb-2">UNIVERSITAS SURABAYA</h2>
+            <h2 class="text-5xl sm:text-7xl font-bold tracking-widest uppercase">"We Not Me"</h2>
 
-            <div class="flex text-3xl mt-14">
-                <a class="mr-16 text-white bg-black p-3 pr-4 rounded-2xl" href="">Join Us</a>
-                <a class="p-3 rounded-2xl border-2 backdrop-blur-sm" href="#navbar">About Us</a>
+            <div class="flex gap-6 text-2xl sm:text-3xl mt-12">
+                <a class="bg-black text-white py-3 px-8 rounded-2xl hover:bg-gray-800 transition-colors" href="">Join Us</a>
+                <a class="border-2 border-black backdrop-blur-sm py-3 px-8 rounded-2xl hover:bg-black hover:text-white transition-colors" href="#navbar">About Us</a>
             </div>
         </div>
 
-        <div id="arrow-scroll" class="text-2xl mt-9">
-            <p>Scroll This Page</p>
-            <img class="ml-11 w-10 relative" src="images/icon/arrow.svg" type="image/svg+xml" alt="arrow">
+        <div class="absolute bottom-10 flex flex-col items-center text-2xl animate-lompat">
+            <p class="mb-2">Scroll This Page</p>
+            <img class="w-8" src="images/icon/arrow.svg" alt="arrow down">
         </div>
     </header>
 
     {{-- NAVBAR --}}
     @include ('layout.mainNavbar')
 
-    {{-- About Us --}}
-    <div id="aboutus" class="font-['Jersey10'] md:text-4xl text-2xl m-14">
-        <h2 class="text-6xl">ABOUT US</h2>
-        <p>An Informatics Engineering student organization, established on the University of Surabaya Campus since 1998. We are located at the TF 4.10 Building, University of Surabaya Tenggilis.</p>
-    </div>
+    {{-- MAIN CONTAINER --}}
+    <main class="font-['Jersey10'] text-center">
+        
+        {{-- About Us --}}
+        <section id="aboutus" class="max-w-4xl mx-auto py-20 px-6 opacity-0 translate-y-10 transition-all duration-1500 ease-out">
+            <h2 class="text-5xl md:text-6xl mb-6">ABOUT US</h2>
+            <p class="text-2xl md:text-3xl leading-relaxed">
+                An Informatics Engineering student organization, established on the University of Surabaya Campus since 1998. We are located at the TF 4.10 Building, University of Surabaya Tenggilis.
+            </p>
+        </section>
 
+        {{-- Our Vision --}}
+        <section id="our-vision" class="max-w-4xl mx-auto py-20 px-6 opacity-0 translate-y-10 transition-all duration-1500 ease-out">
+            <h2 class="text-5xl md:text-6xl mb-6">Our Vision</h2>
+            <p class="text-2xl md:text-3xl leading-relaxed">
+                To be an organization capable of accommodating, expanding knowledge, and realizing the aspirations of engineering faculty students related to Computer Science.
+            </p>
+        </section>
 
+        {{-- DEPARTMENT --}}
+        <section id="department" class="max-w-6xl mx-auto py-20 px-6 flex flex-col items-center">
+            <h2 class="text-5xl md:text-6xl mb-12">DEPARTMENT</h2>
 
-    {{-- Our Vision --}}
-    <div id="our-vision" class="font-['Jersey10'] md:text-4xl text-2xl grid place-items-center m-14 sm:p-14">
-        <h2 class="text-6xl te" >Our Vision</h2>
-        <p > To be an organization capable of accommodating, expanding knowledge, and realizing the aspirations of engineering faculty students related to Computer Science.</p>
-    </div>
+            {{-- Button --}}
+            <form action="/our-team" method="GET" class="relative mb-16 inline-block group">
+                <button type="submit" class="text-2xl bg-black text-white py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300">
+                    Let's see our team
+                </button>
+                {{-- Posisi absolute diikat ke form parent, aman dari resize layar --}}
+                <img src="/images/icon/click_this.webp" alt="Click this pointer" class="absolute -right-16 top-4 w-16 pointer-events-none group-hover:animate-pulse">
+            </form>
 
-    {{-- DEPARTMENT --}}
-    <div id="department" class="font-['Jersey10'] sm:text-3xl text-2xl flex flex-col items-center mb-20">
-        <h2 class="text-6xl">DEPARTMENT</h2>
+            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
+                
+                {{-- BPH --}}
+                <div id="department-BPH" class="md:col-span-2 flex flex-col items-center hover:-translate-y-1 transition-transform duration-300 ">
+                    <h3 class="text-5xl font-bold">BPH</h3>
+                    <h4 class="text-3xl mb-4">(Badan Pengurus Harian)</h4>
+                    <p class="text-2xl md:text-3xl max-w-2xl leading-snug">
+                        The foundation of the organization that keeps everything aligned—streamlining the flow, sustaining the rhythm, and guiding every step forward with purpose and momentum.
+                    </p>
+                    <p class="text-2xl md:text-3xl mt-6 italic">One movement, driven by four essential roles:</p>
+                    <p class="text-3xl md:text-4xl mt-2 font-semibold tracking-wide">Ketua • Wakil-Ketua • Sekretaris • Bendahara</p>
+                </div>
 
-        {{-- Button --}}
-        <form action="/our-team" method="GET" class="flex mb-8">
-            <button type="submit" class="text-2xl bg-black text-white p-2 pl-4 pr-4 rounded-4xl">
-                Let's see our team
-            </button>
-            <img src="/images/icon/click_this.webp" alt="" class="absolute ml-44">
-        </form>
+                {{-- IRD --}}
+                <div id="department-IRD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
+                    <h3 class="text-4xl md:text-5xl font-bold">IRD</h3>
+                    <h4 class="text-2xl md:text-3xl mb-4">(Internal Relation Department)</h4>
+                    <p class="text-2xl md:text-3xl leading-snug">
+                        The team that holds KSM IF together. Making room for new friendships, real support, and growth every step of the way.
+                    </p>
+                </div>
 
-        <div class="w-full grid lg:grid-cols-2 grid-cols-1 gap-14 text-center">
-            <div id="department-BPH" class="lg:col-span-2 grid place-items-center">
-                <h3 class="sm:text-5xl text-4xl">BPH</h3>
-                <h4>(Badan Pengurus Harian)</h4>
-                <p>The foundation of the organization that keeps everything aligned—streamlining the flow,</p>
-                <p>sustaining the rhythm, and guiding every step forward with purpose and momentum.</p>
-                <br>
-                <p><i>One movement, driven by four essential roles:</i></p>
-                <p class="sm:text-5xl text-3xl">Ketua • Wakil-Ketua • Sekretaris • Bendahara</p>
+                {{-- PRD --}}
+                <div id="department-PRD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
+                    <h3 class="text-4xl md:text-5xl font-bold">PRD</h3>
+                    <h4 class="text-2xl md:text-3xl mb-4">(Public Relation Department)</h4>
+                    <p class="text-2xl md:text-3xl leading-snug">
+                        Behind every handshake between KSM IF and the outside world. The team who translate ideas into clear communication, contacts into partnerships, and keep KSM IF’s image shining bright.
+                    </p>
+                </div>
+
+                {{-- HRDD --}}
+                <div id="department-HRDD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
+                    <h3 class="text-4xl md:text-5xl font-bold">HRDD</h3>
+                    <h4 class="text-2xl md:text-3xl mb-4">(Human Resource Development Department)</h4>
+                    <p class="text-2xl md:text-3xl leading-snug">
+                        An organization runs on its people. Human Resource Development Department job is to help every member update, grow, and unlock their best version.
+                    </p>
+                </div>
+
+                {{-- CDD --}}
+                <div id="department-CDD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
+                    <h3 class="text-4xl md:text-5xl font-bold">CDD</h3>
+                    <h4 class="text-2xl md:text-3xl mb-4">(Creative Design Department)</h4>
+                    <p class="text-2xl md:text-3xl leading-snug">
+                        Every great moment tells a story. The Creative Design Department captures it, preserves it, and turns KSM-IF's warmest moments into memories that last.
+                    </p>
+                </div>
+
             </div>
+        </section>
+    </main>
 
-            <div class="grid place-items-center" id="department-IRD">
-                <h3 class="sm:text-5xl text-4xl">IRD</h3>
-                <h4>(Internal Relation Department)</h4>
-                <p>The team that holds KSM IF together.</p>
-                <p>Making room for new friendships, real support,</p>
-                <p>and growth every step of the way.</p>
-            </div>
-
-            <div class="grid place-items-center" id="department-PRD">
-                <h3 class="sm:text-5xl text-4xl">PRD</h3>
-                <h4>(Public Relation Department)</h4>
-                <p>Behind every handshake between KSM IF</p>
-                <p>and the outside world. The team who translate ideas into clear communication, contacts into partnerships,</p>
-                <p>and keep KSM IF’s image shining bright</p>
-            </div>
-
-            <div class="grid place-items-center" id="department-HRDD">
-                <h3 class="sm:text-5xl text-4xl">HRDD</h3>
-                <h4>(Human Resource Development Department)</h4>
-                <p>An organization runs on its people.</p>
-                <p>Human Resource Development Department job is to </p>
-                <p>help every member update,grow, and unlock their best version.</p>
-            </div>
-
-            <div class="grid place-items-center" id="department-CDD">
-                <h3 class="sm:text-5xl text-4xl">CDD</h3>
-                <h4>(Creative Design Department)</h4>
-                <p>Every great moment tells a story.</p>
-                <p>The Creative Design Department captures it, preserves it,</p>
-                <p>and turns KSM-IF's warmest moments into memories that last.</p>
-            </div>
-        </div>
-    </div>
 <script>
-    setTimeout(() => {
-        $('#header').addClass('text-focus-in');
-    }, 1500);
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            const header = document.getElementById('header');
+            if(header) header.classList.add('text-focus-in');
+        }, 1500);
 
-    // belum beres toggle
-    document.querySelectorAll('.active')
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove("opacity-0", "translate-y-10");
+                    entry.target.classList.add("opacity-100", "translate-y-0");
+                } else {
+                    entry.target.classList.remove("opacity-100", "translate-y-0");
+                    entry.target.classList.add("opacity-0", "translate-y-10");
+                }
+            });
+        }, { 
+            threshold: 0.2, // Trigger saat 20% elemen masuk layar
+            rootMargin: "0px 0px -50px 0px"
+        });
 
+        
+        scrollObserver.observe($('#aboutus')[0]);
+        scrollObserver.observe($('#our-vision')[0]);
+    });
 </script>
 @endsection
