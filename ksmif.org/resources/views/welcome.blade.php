@@ -24,7 +24,7 @@
             }
         }
     </style>
-
+    
     {{-- HEADER --}}
     <header id="header-panel" class="relative min-h-screen flex flex-col justify-center items-center font-['Jersey10'] px-4 pt-0">
         <div id="header" class="flex flex-col items-center text-center opacity-0">
@@ -34,8 +34,8 @@
             <h2 class="text-2xl sm:text-3xl mb-2">UNIVERSITAS SURABAYA</h2>
             <h2 class="text-5xl sm:text-7xl font-bold tracking-widest uppercase">"We Not Me"</h2>
 
-            <div class="flex gap-6 text-2xl sm:text-3xl mt-12">
-                <a class="bg-black text-white py-3 px-8 rounded-2xl hover:bg-gray-800 transition-colors" href="">Join Us</a>
+            <div class="flex gap-6 text-2xl sm:text-3xl mt-5">
+                <a class="bg-black text-white py-3 px-8 rounded-2xl hover:bg-white hover:text-black hover:border transition-colors" href="">Join Us</a>
                 <a class="border-2 border-black backdrop-blur-sm py-3 px-8 rounded-2xl hover:bg-black hover:text-white transition-colors" href="#navbar">About Us</a>
             </div>
         </div>
@@ -53,15 +53,18 @@
     <main class="font-['Jersey10'] text-center">
         
         {{-- About Us --}}
-        <section id="aboutus" class="max-w-4xl mx-auto py-20 px-6 opacity-0 translate-y-10 transition-all duration-1500 ease-out">
-            <h2 class="text-5xl md:text-6xl mb-6">ABOUT US</h2>
-            <p class="text-2xl md:text-3xl leading-relaxed">
-                An Informatics Engineering student organization, established on the University of Surabaya Campus since 1998. We are located at the TF 4.10 Building, University of Surabaya Tenggilis.
-            </p>
+        <section id="aboutus" class="max-w-6/7 lg:mx-24 mx-auto py-10 px-6 grid place-items-center lg:grid-cols-2 opacity-0 translate-y-10 transition-all duration-1500 ease-out">
+            <div class="lg:text-left">
+                <h2 class="text-5xl md:text-6xl mb-6">ABOUT US</h2>
+                <p class="text-2xl md:text-3xl leading-relaxed">
+                    An Informatics Engineering student organization, established on the University of Surabaya Campus since 1998. We are located at the TF 4.10 Building, University of Surabaya Tenggilis.
+                </p>
+            </div>
+            <div id="wadah-3d" class="w-4/5 max-w-150 h-64 overflow-hidden cursor-move"></div>
         </section>
 
         {{-- Our Vision --}}
-        <section id="our-vision" class="max-w-4xl mx-auto py-20 px-6 opacity-0 translate-y-10 transition-all duration-1500 ease-out">
+        <section id="our-vision" class="max-w-4xl mx-auto py-10 px-6 opacity-0 translate-y-10 transition-all duration-1500 ease-out">
             <h2 class="text-5xl md:text-6xl mb-6">Our Vision</h2>
             <p class="text-2xl md:text-3xl leading-relaxed">
                 To be an organization capable of accommodating, expanding knowledge, and realizing the aspirations of engineering faculty students related to Computer Science.
@@ -70,11 +73,11 @@
 
         {{-- DEPARTMENT --}}
         <section id="department" class="max-w-6xl mx-auto py-20 px-6 flex flex-col items-center">
-            <h2 class="text-5xl md:text-6xl mb-12">DEPARTMENT</h2>
+            <h2 class="text-5xl md:text-6xl ">DEPARTMENT</h2>
 
             {{-- Button --}}
-            <form action="/our-team" method="GET" class="relative mb-16 inline-block group">
-                <button type="submit" class="text-2xl bg-black text-white py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300">
+            <form action="/our-team" method="GET" class="relative mb-10 inline-block group">
+                <button type="submit" class="text-2xl bg-black text-white py-3 px-8 rounded-full hover:scale-105 hover:bg-white hover:text-black hover:border transition-transform duration-300">
                     Let's see our team
                 </button>
                 {{-- Posisi absolute diikat ke form parent, aman dari resize layar --}}
@@ -85,8 +88,9 @@
                 
                 {{-- BPH --}}
                 <div id="department-BPH" class="md:col-span-2 flex flex-col items-center hover:-translate-y-1 transition-transform duration-300 ">
-                    <h3 class="text-5xl font-bold">BPH</h3>
-                    <h4 class="text-3xl mb-4">(Badan Pengurus Harian)</h4>
+                    <img src="images/icon/bph.webp" alt="bph" class="max-h-16">
+                    {{-- <h3 class="text-5xl font-bold">BPH</h3>--}}
+                    <h4 class="text-3xl mb-4">(Badan Pengurus Harian)</h4> 
                     <p class="text-2xl md:text-3xl max-w-2xl leading-snug">
                         The foundation of the organization that keeps everything aligned—streamlining the flow, sustaining the rhythm, and guiding every step forward with purpose and momentum.
                     </p>
@@ -96,7 +100,8 @@
 
                 {{-- IRD --}}
                 <div id="department-IRD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
-                    <h3 class="text-4xl md:text-5xl font-bold">IRD</h3>
+                    <img src="images/icon/ird.webp" alt="bph" class="max-h-16">
+                    {{-- <h3 class="text-4xl md:text-5xl font-bold">IRD</h3> --}}
                     <h4 class="text-2xl md:text-3xl mb-4">(Internal Relation Department)</h4>
                     <p class="text-2xl md:text-3xl leading-snug">
                         The team that holds KSM IF together. Making room for new friendships, real support, and growth every step of the way.
@@ -105,7 +110,8 @@
 
                 {{-- PRD --}}
                 <div id="department-PRD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
-                    <h3 class="text-4xl md:text-5xl font-bold">PRD</h3>
+                    <img src="images/icon/prd.webp" alt="bph" class="max-h-16">
+                    {{-- <h3 class="text-4xl md:text-5xl font-bold">PRD</h3> --}}
                     <h4 class="text-2xl md:text-3xl mb-4">(Public Relation Department)</h4>
                     <p class="text-2xl md:text-3xl leading-snug">
                         Behind every handshake between KSM IF and the outside world. The team who translate ideas into clear communication, contacts into partnerships, and keep KSM IF’s image shining bright.
@@ -114,7 +120,8 @@
 
                 {{-- HRDD --}}
                 <div id="department-HRDD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
-                    <h3 class="text-4xl md:text-5xl font-bold">HRDD</h3>
+                    <img src="images/icon/hrdd.webp" alt="bph" class="max-h-16">
+                    {{-- <h3 class="text-4xl md:text-5xl font-bold">HRDD</h3> --}}
                     <h4 class="text-2xl md:text-3xl mb-4">(Human Resource Development Department)</h4>
                     <p class="text-2xl md:text-3xl leading-snug">
                         An organization runs on its people. Human Resource Development Department job is to help every member update, grow, and unlock their best version.
@@ -123,7 +130,8 @@
 
                 {{-- CDD --}}
                 <div id="department-CDD" class="flex flex-col items-center px-4 hover:-translate-y-1 transition-transform duration-300">
-                    <h3 class="text-4xl md:text-5xl font-bold">CDD</h3>
+                    <img src="images/icon/cdd.webp" alt="bph" class="max-h-16">
+                    {{-- <h3 class="text-4xl md:text-5xl font-bold">CDD</h3> --}}
                     <h4 class="text-2xl md:text-3xl mb-4">(Creative Design Department)</h4>
                     <p class="text-2xl md:text-3xl leading-snug">
                         Every great moment tells a story. The Creative Design Department captures it, preserves it, and turns KSM-IF's warmest moments into memories that last.
@@ -133,7 +141,7 @@
             </div>
         </section>
     </main>
-
+<script type="module" src="lib/3d.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {

@@ -15,6 +15,14 @@
 
     <link rel="icon" type="image/x-icon" href="images/icon/tab-icon.png" />
     <script src="/lib/jquery.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
     @vite('resources/css/app.css')
     <style>
         html{

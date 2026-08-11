@@ -272,16 +272,45 @@ class UserLog
 
     function newUser(Request $req){
         try{
-            $user = [ 'username'  => $req->input('username'),
-                      'password'  => $req->input('password'), 
-                      'full_name' => $req->input('full_name'),
-                      'email'     => $req->input('email'),
-                      'NRP'       => $req->input('NRP'),
-                      'status'    => true
+            $username  = $req->input('username');
+            $password  = $req->input('password'); 
+            $full_name = $req->input('full_name');
+            $email     = $req->input('email');
+            $NRP       = $req->input('NRP');
+            $status    = true;
+            
+            $divisi    = $req->input('divisi');
+            $periode   = $req->input('periode');
+            $role      = $req->input('role');
+            
+
+            $user = [
+                'username' => $username,
+                'full_name' => $full_name,
+                'password' => $password,
+                'email' => $email,
+                'NRP' => $NRP,
+                'status' => true
             ];
 
-            $result = User::create($user);
-            $data = ['result' => $result];
+            $resultUser = User::create($user);
+            if($resultUser){
+                $member = [
+                    'users_id' => $resultUser['id'],
+                    'period' => $periode,
+                    'division' => $divisi,
+                    'role' => $role,
+                ];
+                
+                $resultMember = Member::create($member);
+                if(!$resultMember)throw new Exception('gak bisa memproses tambah member');
+            }else throw new Exception('gak bisa memproses tambah user');
+            
+            $data = [
+                'user' => $resultUser,
+                'member' => $resultMember
+            ];
+
             return response()->json($data);
         }catch(Exception $ex){
             $data = ['err' => $ex->getMessage()];
