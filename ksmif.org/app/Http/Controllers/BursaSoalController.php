@@ -32,7 +32,7 @@ class BursaSoalController
                'matkul'   => $matkul,
                'auth'     => Auth::user()
                ];
-        return view('bursaSoal.bursaSoal', compact('data'));
+        return view('bursaSoal', compact('data'));
          //return response()->json($data);
     }
 

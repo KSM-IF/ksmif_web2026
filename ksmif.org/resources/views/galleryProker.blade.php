@@ -92,7 +92,7 @@
             <!-- Kartu Proker 4 -->
             <article class="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-800 border-dashed card-hover flex flex-col">
                 <div class="relative h-56 overflow-hidden">
-                    <img src="https://lh3.googleusercontent.com/d/18EFfWe5cgELJWGh1ROZhk6ATZky9NQL2=s800" referrerpolicy="no-referrer" class="w-full h-full object-cover">
+                    <img src="https://lh3.googleusercontent.com/d/1R_7rZkoAHGUEWzQzmyjedeiV0tNknIwM=s800" referrerpolicy="no-referrer" class="w-full h-full object-cover">
                     <div class="absolute top-4 left-4">
                         <span class="bg-red-200 text-red-800 text-2xs px-3 py-1 rounded-full uppercase tracking-wide">closed</span>
                     </div>
