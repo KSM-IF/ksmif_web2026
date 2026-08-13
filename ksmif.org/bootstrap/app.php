@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         //
+        $middleware->validateCsrfTokens(except: ['dashboard/database']);
         $middleware->alias(['checkMember'=>\App\Http\Middleware\UserAuth::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

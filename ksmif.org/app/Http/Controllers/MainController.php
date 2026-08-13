@@ -177,4 +177,9 @@ class MainController extends Controller
         $code = $req->query('code');
         return view("/errors.{$code}");
     }
+
+    function database(){
+        $data = ['auth' => Auth::check()];
+        return view('dashboard.adminer', compact('data'));
+    }
 }
