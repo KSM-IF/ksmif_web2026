@@ -20,7 +20,7 @@
         </div>
         <div class="m-2.5 h-fit">
             @if($data['auth'])
-            <a id="dashboard" href="/dashboard/editMember" class="bg-black text-white p-2 rounded-2xl">
+            <a id="dashboard" href="/dashboard/editMember/user/by?id={{$data['usr-id']}}" class="bg-black text-white p-2 rounded-2xl">
                 Dashboard
             </a>
             @else    

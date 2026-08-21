@@ -14,26 +14,28 @@ class BursaSoalController
 {
     function bursaSoal(){
         $bursaSoal = BursaSoal::with('matkul','users')->get();
-	$matkul    = Matkul::get();
-	$data 	   = [];
+        $matkul    = Matkul::get();
+        $data 	   = [];
 
-	if($bursaSoal->isNotEmpty()){
-		$data += [
-		'tahun' => $bursaSoal->pluck('tahun')->unique(),
-		'bursaSoal'=> $bursaSoal
-		];
-	}else{
-		$data += [
-		'bursaSoal' => false
-		];
-	}
+        if($bursaSoal->isNotEmpty()){
+            $data += [
+            'tahun' => $bursaSoal->pluck('tahun')->unique(),
+            'bursaSoal'=> $bursaSoal
+            ];
+        }else{
+            $data += [
+            'bursaSoal' => false
+            ];
+        }
 
         $data+=['navbar'   => 'bursaSoal',
-               'matkul'   => $matkul,
-               'auth'     => Auth::user()
-               ];
+            'matkul'   => $matkul,
+            'auth'     => Auth::user()
+            ];
+        if(Auth::check()) $data['usr-id'] = Auth::user()->id;
+        
         return view('bursaSoal', compact('data'));
-         //return response()->json($data);
+        //return response()->json($data);
     }
 
     function bursaSoalBy(Request $req){

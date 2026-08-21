@@ -224,17 +224,27 @@ $('#editDataUser').on('click', '#deleteUser', function(e){
     },{});
     console.log(formData);
 
+    let usrConfirm = false, usrConfirm1 = false, usrConfirm2 = false;
     let sessionId  = $('meta[name="session-id"]').attr('content');
-    let usrConfirm = confirm(`Beneran mau delete data ${formData.username} nih 😢`);
-    let usrConfirm2= confirm(
-        `Yakin nih bang ? coba check dulu :
-        ID        = ${user.id}
-        Full Name = ${formData.fullname}
-        Username  = ${formData.username}
-        NRP       = ${formData.nrp}
-        Email     = ${formData.email}`);
-    
-    if(usrConfirm && usrConfirm2){
+    usrConfirm = confirm(`Beneran mau delete data ${formData.username} nih 😢`);
+    if(usrConfirm){
+    usrConfirm1= confirm(`
+▖ ▗▖▗▄▖▄▖ ▖ ▗▖▄▄▖▖ ▗▖▗▄▄▐▌
+▌ ▐▌▌ ▌▌▐▌▛▚▐▌ █ ▛▚▐▌▌  ▐▌
+▌ ▐▌▛▜▌▛▚▖▌ ▜▌ █ ▌ ▜▌▌▝▜▐▌
+▙█▟▌▌▐▌▌▐▌▌ ▐▌▄█▖▌ ▐▌▚▄▞▗▖
+Data user dan seluruh data member dri user yg bersangkutan akan dihapus!`);
+        if(usrConfirm1){
+        usrConfirm2= confirm(`Yakin nih bang ? coba check dulu :
+ID        = ${user.id}
+Full Name = ${formData.fullname}
+Username  = ${formData.username}
+NRP       = ${formData.nrp}
+Email     = ${formData.email}`);
+        }
+    }
+
+    if(usrConfirm && usrConfirm2 && usrConfirm1){
         $.ajax({
             type: "DELETE",
             url: `/dashboard/editMember/user/by?id=${user.id}`,

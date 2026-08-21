@@ -98,7 +98,7 @@ $("#newUser").on("submit", function(e){
 
     $.ajax({
         type: "POST",
-        url: "/dashboard/newMember/user",
+        url: "/dashboard/newMember",
         data: fdata,
         dataType: "json",
         processData: false,
@@ -110,7 +110,7 @@ $("#newUser").on("submit", function(e){
             if(res.status === true){
                     alert("tambah data success!!");
                     console.log(res);
-                    // window.location.replace("/dashboard/editMember/user/by?id="+res.user);
+                    window.location.replace("/dashboard/editMember/user/by?id="+res.user);
             }else{
                 console.log(res);
             }

@@ -14,6 +14,7 @@ class MainController extends Controller
 {
     function homepage(){
         $data=['navbar' => 'homepage', 'auth' => Auth::check()];
+        if(Auth::check()) $data['usr-id'] = Auth::user()->id;
         return view('welcome', compact('data'));
     }
 
@@ -78,6 +79,7 @@ class MainController extends Controller
                 'hrdd'=> $HRDD,
                 'cdd' => $CDD
             ]];
+        if(Auth::check()) $data['usr-id'] = Auth::user()->id;
         }catch(Exception $ex){
             $data=['err'=> $ex->getMessage()];
             return view("errors.{$ex->getCode()}");
@@ -155,6 +157,8 @@ class MainController extends Controller
                     'division'=> $division
                ]
             ];
+        if(Auth::check()) $data['usr-id'] = Auth::user()->id;
+
         }catch(Exception $ex){
             $data=['err'=> $ex->getMessage()];
             return view("/errors.{$ex->getCode()}");
@@ -166,6 +170,8 @@ class MainController extends Controller
     function gallery(){
         try{
             $data = ['navbar' => 'gallery', 'auth' => Auth::check()];
+            if(Auth::check()) $data['usr-id'] = Auth::user()->id;
+            
             return view('galleryProker', compact('data'));
         }catch(Exception $ex){
             $data=['err'=> $ex->getMessage()];

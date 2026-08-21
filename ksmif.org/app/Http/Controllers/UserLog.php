@@ -27,7 +27,7 @@ class UserLog
                     'token'=> $token,
                     'token_type' => 'bearer',
                     'expires_in' => auth('api')->factory()->getTTL() * 60,
-                    'redirected' => "/dashboard/editMember"
+                    'redirected' => "/dashboard/editMember/user/by?id={$user->id}"
                     ];
             }else{throw new Exception("Invalid username or password",0);}
             // return redirect("/dashboard/editMember",302)->with($data);
@@ -49,7 +49,7 @@ class UserLog
                             ->select('users.*', 'members.*', 'users.id as user_id', 'members.id as member_id');
 
             if(!$periode && !$divisi){
-                $now = (time() <= strtotime('01-10-2026')) ? '2025':'2026';
+                $now = $req->input('active_periode');
                 $member->where('period', $now);
             }else{
                 $member->where('period', $periode);
@@ -82,7 +82,8 @@ class UserLog
             $user = User::with('members')
                     ->find($id);
             $data = ['user' => $user,
-                     'userLogin' => ['username' => $user->username]
+                     'userLogin' => ['username' => $user->username, 
+                                     'id'       => $user->id]
                     ];
             // return response()->json($data);
             return view('dashboard.editUser', compact('data'));
@@ -284,7 +285,9 @@ class UserLog
     }
 
     function newUserPage(){
-        $data = ['userLogin'  => Auth::user()];
+        $data = [
+            'userLogin'  => Auth::user()
+        ];
         return view('dashboard.newMember',compact('data'));
     }
 
