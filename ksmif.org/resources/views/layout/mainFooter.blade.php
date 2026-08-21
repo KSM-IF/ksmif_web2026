@@ -16,6 +16,12 @@
             <img style="height: 24px" src="/images/icon/instagram.svg">
             <a href="https://instagram.com/ksm_informatika">INSTAGRAM : @ksm_informatika</a>
         </div>
+
+        <div class="flex gap-1.5">
+            <img style="height: 24px; filter: invert(100%);"src="/images/icon/github.webp" alt="github">
+            <a href="https://github.com/KSM-IF">Github : https://github.com/KSM-IF</a>
+        </div>
+
         <div class="flex gap-1.5">
             <img style="height: 24px" src="/images/icon/line.svg">
             <a href="">LINE : @test</a>

@@ -11,6 +11,7 @@ const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
 const roleReg = ['Koor', 'WaKoor', 'Anggota'];
 let submitClick = false;
 let auth = "{{$auth}}";
+let check = "";
 $(document).ready(function () {
     let userStatus;
 
@@ -92,7 +93,7 @@ $(document).ready(function () {
                 });
             }
             
-            let check = "";
+            
             if(auth == 'hrdd' || auth == 'normies') check = "disabled";
             formEditUser +=
             `<tr class="member-row" data-id="${e.id}">
