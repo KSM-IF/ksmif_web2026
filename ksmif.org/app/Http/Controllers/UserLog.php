@@ -81,8 +81,11 @@ class UserLog
             $id = $req->query('id');
             $user = User::with('members')
                     ->find($id);
-            $data = ['user' => $user];
-            return response()->json($data);
+            $data = ['user' => $user,
+                     'userLogin' => ['username' => $user->username]
+                    ];
+            // return response()->json($data);
+            return view('dashboard.editUser', compact('data'));
         }catch(Exception $ex){
             $data = ['err' => $ex->getMessage()];
             return view("errors.{$ex->getCode()}",compact('data'));
@@ -136,8 +139,10 @@ class UserLog
                     $namaFile = "{$user->NRP}-{$periode}";
 
                     
-                    $response = Http::withOptions(['allow_redirects' => true])
-                        ->timeout(60)
+                    $response = Http::timeout(60)
+                        ->withOptions([
+                            'connect_timeout'  => 30,
+                            'allow_redirects'  => true,])
                         ->asJson()
                         ->post($uploadUrl, [
                             'fileName'   => $namaFile,
@@ -154,8 +159,10 @@ class UserLog
                     }
 
                     if (!blank($member->display_photo)) {
-                        Http::withOptions(['allow_redirects' => true])
-                            ->timeout(60)
+                        Http::timeout(60)
+                            ->withOptions([
+                                'connect_timeout'  => 30, 
+                                'allow_redirects'  => true, ])
                             ->asJson()
                             ->post($deleteUrl, [
                                 'fileId' => $member->display_photo
@@ -202,6 +209,9 @@ class UserLog
                 $deleteUrl = env('GD_DELETE_PHOTO');
                 
                 $responseHapus = Http::timeout(60)
+                            ->withOptions([
+                                'connect_timeout'  => 30, 
+                                'allow_redirects'  => true, ])
                             ->asJson()
                             ->post($deleteUrl,[
                                 'fileId'   => $member->display_photo
@@ -243,6 +253,9 @@ class UserLog
                 $namaFile = "{$user->NRP}-{$periode}";
 
                 $response = Http::timeout(60)
+                            ->withOptions([
+                                'connect_timeout'  => 30, 
+                                'allow_redirects'  => true, ])
                             ->asJson()
                             ->post($uploadUrl, [
                                 'fileName'   => $namaFile,
@@ -270,19 +283,26 @@ class UserLog
         }
     }
 
+    function newUserPage(){
+        $data = ['userLogin'  => Auth::user()];
+        return view('dashboard.newMember',compact('data'));
+    }
+
     function newUser(Request $req){
         try{
             $username  = $req->input('username');
             $password  = $req->input('password'); 
-            $full_name = $req->input('full_name');
+            $full_name = $req->input('fullname');
             $email     = $req->input('email');
-            $NRP       = $req->input('NRP');
+            $NRP       = $req->input('nrp');
             $status    = true;
             
-            $divisi    = $req->input('divisi');
+            $divisi    = $req->input('division');
             $periode   = $req->input('periode');
             $role      = $req->input('role');
-            
+            $photo     = $req->file('photo');
+            $gdFolder  = env('GD_FOLDER_PHOTO');
+            $uploadUrl = env('GD_UPLOAD_PHOTO');
 
             $user = [
                 'username' => $username,
@@ -302,12 +322,40 @@ class UserLog
                     'role' => $role,
                 ];
                 
-                $resultMember = Member::create($member);
+                if($photo){
+                    if (!$gdFolder)  throw new \Exception('GD_FOLDER_PHOTO tidak ditemukan :(');
+                    if (!$uploadUrl) throw new \Exception('GD_UPLOAD_PHOTO tidak ditemukan :(');
+                    
+                    $namaFile = "{$NRP}-{$periode}";
+
+                    $response = Http::timeout(60)
+                                ->withOptions([
+                                    'connect_timeout'  => 30, 
+                                    'allow_redirects'  => true, ])
+                                ->asJson()
+                                ->post($uploadUrl, [
+                                    'fileName'   => $namaFile,
+                                    'fileBase64' => base64_encode($photo->getContent()),
+                                    'folderId'   => $gdFolder,
+                                    'mimeType'   => $photo->getMimeType() ?: 'image/*',
+                            ]);
+
+                    $result = $response->json();
+                    if (!$response->successful() || !($result['success'] ?? false)) {
+                        throw new \Exception(
+                            $result['error'] ?? 'Apps Script gagal memproses file'
+                        );
+                    }
+                    $member['display_photo'] = $result['fileId'];
+                }
+
+                $resultMember = Members::create($member);
                 if(!$resultMember)throw new Exception('gak bisa memproses tambah member');
             }else throw new Exception('gak bisa memproses tambah user');
             
             $data = [
-                'user' => $resultUser,
+                'user' => $resultUser->id,
+                'status' => true,
                 'member' => $resultMember
             ];
 

@@ -10,6 +10,7 @@ class Members extends Model
         'users_id',
         'period',
         'division',
+        'display_photo',
         'role' //['Koor', 'WaKoor', 'Anggota','Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara']
     ];
 }

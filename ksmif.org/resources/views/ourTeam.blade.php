@@ -3,7 +3,7 @@
 @section('content')
 <main class="font-['Jersey10']">
     <header class="text-center">
-        <h1 class="text-7xl">Meet Our Team</h1>
+        <h1 class="sm:text-7xl text-5xl">Meet Our Team</h1>
         <p class="text-3xl sm:mx-[5%] mx-2">We are comprised of dedicated departments working together to build an amazing community.</p>
     </header>
 
@@ -75,7 +75,7 @@
                 
                 <div class="grid grid-cols-[repeat(2,auto)] md:grid-cols-[repeat(3,auto)] xl:grid-cols-[repeat(4,auto)] justify-center gap-4 lg:mx-8 mx-2 my-4" id="members">
                     @foreach($item as $i)
-                    <div class="border-2 border-dashed p-2 rounded-2xl sm:w-60 min-w-44 max-h-[350px] backdrop-blur-sm grid place-items-center">
+                    <div class="border-2 border-dashed p-2 rounded-2xl sm:w-60 sm:min-w-52 min-[475px]:w-48 w-44 max-h-[350px] backdrop-blur-sm grid place-items-center">
                         <p class="text-6xl">{{$i['division']}}</p>
                         <p class="text-4xl">{{$i['role']}}</p>
                         @if(is_null($i['display_photo']))
