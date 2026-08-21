@@ -10,7 +10,7 @@ const divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
 const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
 const roleReg = ['Koor', 'WaKoor', 'Anggota'];
 let submitClick = false;
-
+let auth = "{{$auth}}";
 $(document).ready(function () {
     let userStatus;
 
@@ -91,19 +91,21 @@ $(document).ready(function () {
                     else{ role += `<option value="${element}">${element}</option>\n`;}
                 });
             }
-
+            
+            let check = "";
+            if(auth == 'hrdd' || auth == 'normies') check = "disabled";
             formEditUser +=
             `<tr class="member-row" data-id="${e.id}">
                 <td class="border p-2">
-                    <input type="number" name="periode" value="${e.period}" required>
+                    <input type="number" name="periode" value="${e.period}" required >
                 </td>
                 <td class="border p-2">
-                    <select name="division" class="division" data-id="${e.id}" required>
+                    <select name="division" class="division" data-id="${e.id}" required ${check}>
                         ${div}
                     </select>
                 </td>
                 <td class="border p-2">
-                    <select name="role" class="role" data-id="${e.id}" required>
+                    <select name="role" class="role" data-id="${e.id}" required ${check}>
                         ${role}
                     </select>    
                 </td>
@@ -117,14 +119,19 @@ $(document).ready(function () {
                 </td>
             </tr>`;
         });
-                    
+        
+        if(auth == 'hrdd' || auth == 'normies') check = "hidden";
         formEditUser += `
-        <tr id="newMember">
+        <tr id="newMember" ${check}>
             <td colspan="5" class="border">
                 <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
             </td>
         </tr>
-        </tbody></table>`;
+        </tbody></table>
+        <p style="color:red">
+            *tambah data member dan ganti role divisi hanya bisa dilakukan oleh KOORWA / BPH<br>
+            Jangan lancang kau dek 🤨🫵
+        </p>`;
 
         $('#editDataUser').html(formEditUser);
 });
