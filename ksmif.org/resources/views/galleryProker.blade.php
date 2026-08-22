@@ -16,6 +16,7 @@
             
             <!-- Kartu Proker 1 -->
             <article class="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-800 border-dashed card-hover flex flex-col">
+                <a href="https://universitassurabaya-my.sharepoint.com/:f:/g/personal/s160425012_microsoft_ubaya_ac_id/IgDib1y0HGooQZAYwcl9-RouATiK0tMCDwY23BYDk-Y6GTg?e=IPcgHC">
                 <div class="relative h-56 overflow-hidden">
                     <img src="https://lh3.googleusercontent.com/d/18EFfWe5cgELJWGh1ROZhk6ATZky9NQL2=s800" referrerpolicy="no-referrer" alt="proker" class="w-full h-full object-cover">
                     <div class="absolute top-4 left-4">
@@ -32,15 +33,17 @@
                     <p class="text-gray-600 mb-6 grow line-clamp-3">
                         Pelatihan dan diskusi interaktif selama 8 minggu untuk mengembangkan skill sebelum mengikuti lomba pada mahasiswa Informatika.
                     </p>
-                    <a href="/tes" class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
+                    <p class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
                         Lihat Dokumentasi 
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    </p>
                 </div>
+                </a>
             </article>
 
             <!-- Kartu Proker 2 -->
             <article class="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-800 border-dashed card-hover flex flex-col">
+                <a href="https://drive.google.com/drive/folders/1-jw3pHBBUNvxbAAdvM6j1Ti94Yq7VeTX?usp=drive_link">
                 <div class="relative h-56 overflow-hidden">
                     <img src="https://lh3.googleusercontent.com/d/1FL3d5SqnheGxrQI-6MHC1qlu3zesMr0X=s800" referrerpolicy="no-referrer" class="w-full h-full object-cover">
                     <div class="absolute top-4 left-4">
@@ -57,15 +60,17 @@
                     <p class="text-gray-600 mb-6 grow line-clamp-3">
                         Studi Ekskursi merupakan kegiatan pembelajaran di luar kampus dengan mengunjungi perusahaan khususnya yang melibatkan bidang Informatika.
                     </p>
-                    <a href="/tes" class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
+                    <p class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
                         Lihat Dokumentasi 
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    </p>
                 </div>
+                </a>
             </article>
 
             <!-- Kartu Proker 3 -->
             <article class="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-800 border-dashed  card-hover flex flex-col">
+                <a href="https://drive.google.com/drive/folders/1nDy2yH-WguaqdgNN7_w2ot9kpn4R3jAM?usp=drive_link">
                 <div class="relative h-56 overflow-hidden">
                     <img src="https://lh3.googleusercontent.com/d/1RK8rTSq-cHabdD6zOY1Hhgc-kcSpK2Xq=s800" referrerpolicy="no-referrer" class="w-full h-full object-cover">
                     <div class="absolute top-4 left-4">
@@ -82,15 +87,17 @@
                     <p class="text-gray-600 mb-6 grow line-clamp-3">
                         Informatics Gathering merupakan kegiatan kebersamaan mahasiswa Teknik Informatika UBAYA yang dirancang sebagai ruang untuk saling mengenal, terhubung, dan membangun relasi lintas angkatan. Melalui kegiatan ini, kita diajak untuk berbagi cerita, pengalaman, dan menciptakan momen hangat yang bermakna bersama
                     </p>
-                    <a href="/tes" class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
+                    <p class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
                         Lihat Dokumentasi 
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    </p>
                 </div>
+                </a>
             </article>
 
             <!-- Kartu Proker 4 -->
             <article class="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-800 border-dashed card-hover flex flex-col">
+                <a href="https://drive.google.com/drive/folders/1igciAyMWAZaGSRvbh2Fr6dRKjkwoVMc2?usp=drive_link">
                 <div class="relative h-56 overflow-hidden">
                     <img src="https://lh3.googleusercontent.com/d/1R_7rZkoAHGUEWzQzmyjedeiV0tNknIwM=s800" referrerpolicy="no-referrer" class="w-full h-full object-cover">
                     <div class="absolute top-4 left-4">
@@ -107,11 +114,12 @@
                     <p class="text-gray-600 mb-6 grow line-clamp-3">
                         KSM Informatika hadir di SMAK Santa Agnes dan SMAK Frateran untuk berbagi ilmu seputar dunia pemrograman 👨‍💻👩‍💻. Di sini adik-adik belajar cara mengvisualisasi data dengan Mathplotlib dari python. Dari yang awalnya belum pernah ngoding, sampai akhirnya bisa menngvisualisasikan data 🚀🔥
                     </p>
-                    <a href="/tes" class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
+                    <p class="inline-flex items-center text-gray-600 font-semibold hover:text-blue-800 transition">
                         Lihat Dokumentasi 
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    </p>
                 </div>
+                </a>
             </article>
         </div>
 

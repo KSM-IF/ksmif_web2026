@@ -33,4 +33,4 @@ Route::delete('/dashboard/editBursa',[BursaSoalController::class, 'deleteSoal'])
 Route::match(['get','post'],'/dashboard/database',[MainController::class, 'database'])->middleware('checkMember');
 
 //tesErr
-Route::get('/tes-err', [MainController::class, 'tesError']);
+Route::get('/err', [MainController::class, 'error']);

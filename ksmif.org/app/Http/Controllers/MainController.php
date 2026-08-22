@@ -179,7 +179,7 @@ class MainController extends Controller
         }
     }
     
-    function tesError(Request $req){
+    function error(Request $req){
         $code = $req->query('code');
         return view("/errors.{$code}");
     }

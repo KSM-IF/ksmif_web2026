@@ -6,6 +6,7 @@ use Exception;
 use App\Models\User;
 use App\Models\Members;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -99,13 +100,33 @@ class UserLog
             $memberId = $req->query('member-id');
 
             if($req->filled('id')){
+                $user = User::find($id);
+
                 $username = $req->input('username');
                 $full_name= $req->input('fullname');
                 $nrp      = $req->input('nrp');
                 $email    = $req->input('email');
                 $status   = $req->input('status');
-                
-                $user = User::find($id);
+                $oldPassdw= $req->input('old-password');
+                $newPasswd= $req->input('new-password');
+                $conPasswd= $req->input('confirm-password');
+
+                if(filled($oldPassdw)){
+                    if (!Hash::check($oldPassdw, $user->password)) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Password lama salah!!'], 422);
+                    }
+
+                    if ($newPasswd !== $conPasswd) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Password baru tidak sesuai!!'], 422);
+                    }
+
+                    $user->password = Hash::make($newPasswd);
+                }
+
                 $user->username = $username;
                 $user->full_name= $full_name;
                 $user->NRP      = $nrp;
@@ -122,11 +143,19 @@ class UserLog
                 $photo   = $req->file('photo');
                 $role    = $req->input('role');
                 
+                
                 $gdFolder  = env('GD_FOLDER_PHOTO');
                 $uploadUrl = env('GD_UPLOAD_PHOTO');
                 $deleteUrl = env('GD_DELETE_PHOTO');
-
+                
                 $member = Members::find($memberId);
+
+                if($req['auth'] == 'hrdd' || $req['auth'] == 'normies'){
+                    if($member->period != $periode || $member->division != $division || $member->role != $role){
+                        return view("errors.403",[],403);
+                    }
+                }
+
                 $member->period   = $periode;
                 $member->division = $division;
                 $member->role     = $role;

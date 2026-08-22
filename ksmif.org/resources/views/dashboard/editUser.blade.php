@@ -10,8 +10,6 @@ const divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
 const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
 const roleReg = ['Koor', 'WaKoor', 'Anggota'];
 let submitClick = false;
-let auth = "{{$auth}}";
-let check = "";
 $(document).ready(function () {
     let userStatus;
 
@@ -26,8 +24,9 @@ $(document).ready(function () {
         }
     
         let formEditUser =
-        `<form action="/dashboard/editMember/by?user-id=${user.id}" method="POST">
+        `<form action="/dashboard/editMember/by?user-id=${user.id}" method="POST" class="grid grid-cols-2">
             @csrf
+            <section>
             <p>ID : ${user.id}</p>
             <div>
                 <label for="fullname">Full Name :</label>
@@ -53,9 +52,29 @@ $(document).ready(function () {
             </div>
             <p>Created at: ${user.created_at}</p>
             <p>Updated at: ${user.updated_at}</p>
+        </section>
+        <section class="border m-4 p-2">
+            <p>Ganti Password</p>
+            <div>
+                <label for="old-password">Old Password:</label>
+                <input type="text" name="old-password" style="border-bottom: 1px black solid;">
+            </div>
+            <div>
+                <label for="new-password">New Password:</label>
+                <input type="text" name="new-password" style="border-bottom: 1px black solid;">
+            </div>
+            <div>
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="text" name="confirm-password" style="border-bottom: 1px black solid;">
+            </div>
+            <p>*kalo lupa password contact BPH :v</p>
+        </section>
+        <div>
             <button id="saveUser" type="button" class="bg-black p-2 text-white rounded-2xl text-2xl">Save</button>
             <button id="deleteUser" type="button" style="color:white;background-color:red;padding:0.5rem;">Delete</button>
+        </div>
         </form>
+
         <br>
             <table>
             <thead>
@@ -94,22 +113,38 @@ $(document).ready(function () {
             }
             
             
-            if(auth == 'hrdd' || auth == 'normies') check = "disabled";
+           
             formEditUser +=
             `<tr class="member-row" data-id="${e.id}">
+                @if($auth == 'hrdd' || $auth == 'normies')
                 <td class="border p-2">
-                    <input type="number" name="periode" value="${e.period}" required >
+                    <input type="number" name="periode" value="${e.period}" required disabled>
                 </td>
                 <td class="border p-2">
-                    <select name="division" class="division" data-id="${e.id}" required ${check}>
+                    <select name="division" class="division" data-id="${e.id}" required disabled>
                         ${div}
                     </select>
                 </td>
                 <td class="border p-2">
-                    <select name="role" class="role" data-id="${e.id}" required ${check}>
+                    <select name="role" class="role" data-id="${e.id}" required disabled>
                         ${role}
                     </select>    
                 </td>
+                @else
+                <td class="border p-2">
+                    <input type="number" name="periode" value="${e.period}" required >
+                </td>
+                <td class="border p-2">
+                    <select name="division" class="division" data-id="${e.id}" required>
+                        ${div}
+                    </select>
+                </td>
+                <td class="border p-2">
+                    <select name="role" class="role" data-id="${e.id}" required>
+                        ${role}
+                    </select>    
+                </td>
+                @endif
                 <td class="border p-2">
                     <p>Current photo: ${e.display_photo}</p>
                     <input type="file" name="photo" accept="image/*" class="border-b">
@@ -121,16 +156,23 @@ $(document).ready(function () {
             </tr>`;
         });
         
-        if(auth == 'hrdd' || auth == 'normies') check = "hidden";
         formEditUser += `
-        <tr id="newMember" ${check}>
-            <td colspan="5" class="border">
-                <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
-            </td>
-        </tr>
+        @if($auth == 'hrdd' || $auth == 'normies')
+            <tr id="newMember" hidden>
+                <td colspan="5" class="border">
+                    <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
+                </td>
+            </tr>
+        @else
+            <tr id="newMember" hidden>
+                <td colspan="5" class="border">
+                    <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
+                </td>
+            </tr>
+        @endif
         </tbody></table>
         <p style="color:red">
-            *tambah data member dan ganti role divisi hanya bisa dilakukan oleh KOORWA / BPH<br>
+            *tambah data member, ganti role divisi dan ganti periode hanya bisa dilakukan oleh KOORWA / BPH<br>
             Jangan lancang kau dek 🤨🫵
         </p>`;
 
@@ -216,7 +258,10 @@ $('#editDataUser').on('click', '#saveUser', function(e){
                 }
             },
             error: function(xhr) {
-            console.log('Error:', xhr.responseText);
+                console.log("Status:", xhr.status);
+                console.log("Response:", xhr.responseJSON);
+
+                alert(xhr.responseJSON?.message ?? "Terjadi kesalahan");
             }
         });
     }else{
@@ -348,7 +393,11 @@ $(document).on("click", ".btnEditMember", function (e) {
             location.reload();
         },
         error: function (xhr, status, error) {
-            console.error(xhr.responseText);
+            if (xhr.status === 403) {
+                window.location.href = '/err?code=403';
+            } else {
+                console.error(xhr.responseText);
+            }
         }
     });
 });
@@ -384,7 +433,11 @@ $(document).on("click", ".btnSaveMember", function (e) {
             location.reload();
         },
         error: function (xhr, status, error) {
-            console.error(xhr.responseText);
+            if (xhr.status === 403) {
+                window.location.href = '/err?code=403';
+            } else {
+                console.error(xhr.responseText);
+            }
         }
     });
 });
