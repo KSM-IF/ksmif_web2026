@@ -164,7 +164,7 @@ $(document).ready(function () {
                 </td>
             </tr>
         @else
-            <tr id="newMember" hidden>
+            <tr id="newMember">
                 <td colspan="5" class="border">
                     <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
                 </td>
