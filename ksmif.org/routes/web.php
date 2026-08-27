@@ -14,6 +14,7 @@ Route::get('/bursa-soal/by', [BursaSoalController::class, 'bursaSoalBy']);
 
 //User Login/signin
 Route::post('/user-login', [UserLog::class, 'userLogin']);
+Route::get('/logout', [UserLog::class, 'logout']);
 
 //dashboad edit member
 Route::get('/dashboard/editMember', [UserLog::class, 'editMember'])->middleware('checkMember');

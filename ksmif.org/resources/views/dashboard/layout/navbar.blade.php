@@ -14,5 +14,6 @@
 @elseif($auth == 'hrdd')
     <a href="/dashboard/editBursa">&#x21A3; bursa soal</a><br>
 @endif
+<a href="/logout">&#x21A3; Logout</a>
 <a href="/">&#x21A3; homepage</a><br>
 </nav>

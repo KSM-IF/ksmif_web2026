@@ -27,7 +27,7 @@ class UserLog
                     'user' => $user,
                     'token'=> $token,
                     'token_type' => 'bearer',
-                    'expires_in' => auth('api')->factory()->getTTL() * 60,
+                    'expires_in' => 7200,
                     'redirected' => "/dashboard/editMember/user/by?id={$user->id}"
                     ];
             }else{throw new Exception("Invalid username or password",0);}
@@ -37,6 +37,19 @@ class UserLog
             $data = ['err' => $ex->getMessage()];
             if($ex->getCode() == 0) return response()->json($data);
             return view("errors.{$ex->getCode()}",compact($data));
+        }
+    }
+
+    function logout(){
+        try {
+            // Hapus token yang sedang digunakan pada request ini
+            Auth::user()->currentAccessToken()->delete();
+
+            return response()
+                    ->json(['message' => 'Logout berhasil'], 200);
+        } catch (Exception $ex) {
+            return response()
+                    ->json(['err' => $ex->getMessage()], 500);
         }
     }
 

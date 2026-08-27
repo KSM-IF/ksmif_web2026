@@ -14,10 +14,12 @@ services:
     ports:
       - "${DB_PORT}:3306"
     restart: always
+    command: --default-time-zone='+07:00'
     environment:
       MARIADB_DATABASE: ${DB_DATABASE}
       #MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
       MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      TZ: 'Asia/Jakarta'
     volumes:
       - ./dockerconfig/mariadb:/var/lib/mysql
 
