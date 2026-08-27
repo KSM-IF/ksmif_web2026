@@ -118,15 +118,15 @@ $(document).ready(function () {
             `<tr class="member-row" data-id="${e.id}">
                 @if($auth == 'hrdd' || $auth == 'normies')
                 <td class="border p-2">
-                    <input type="number" name="periode" value="${e.period}" required disabled>
+                    <input type="number" name="periode" value="${e.period}" required readonly>
                 </td>
                 <td class="border p-2">
-                    <select name="division" class="division" data-id="${e.id}" required disabled>
+                    <select name="division" class="division" data-id="${e.id}" required readonly>
                         ${div}
                     </select>
                 </td>
                 <td class="border p-2">
-                    <select name="role" class="role" data-id="${e.id}" required disabled>
+                    <select name="role" class="role" data-id="${e.id}" required readonly>
                         ${role}
                     </select>    
                 </td>
@@ -158,11 +158,7 @@ $(document).ready(function () {
         
         formEditUser += `
         @if($auth == 'hrdd' || $auth == 'normies')
-            <tr id="newMember" hidden>
-                <td colspan="5" class="border">
-                    <p class="text-2xl underline text-center">TAMBAH DATA MEMBER</p>
-                </td>
-            </tr>
+            <br>
         @else
             <tr id="newMember">
                 <td colspan="5" class="border">
