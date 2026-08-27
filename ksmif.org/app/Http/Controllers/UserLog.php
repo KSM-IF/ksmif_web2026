@@ -40,10 +40,19 @@ class UserLog
         }
     }
 
-    function logout(){
+    function logout(Request $req){
         try {
-            // Hapus token yang sedang digunakan pada request ini
-            Auth::user()->currentAccessToken()->delete();
+            $user = Auth::user();
+            if ($user) {
+                if ($user->currentAccessToken()) {
+                    $user->currentAccessToken()->delete();
+                }
+                Auth::logout();
+            }
+
+            $req->session()->invalidate();
+            $req->session()->regenerateToken();
+
 
             return response()
                     ->json(['message' => 'Logout berhasil'], 200);

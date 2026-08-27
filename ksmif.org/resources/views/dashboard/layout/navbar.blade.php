@@ -14,6 +14,17 @@
 @elseif($auth == 'hrdd')
     <a href="/dashboard/editBursa">&#x21A3; bursa soal</a><br>
 @endif
-<a href="/logout">&#x21A3; Logout</a><br>
+<a id="logout">&#x21A3; Logout</a><br>
 <a href="/">&#x21A3; homepage</a><br>
 </nav>
+<script>
+$('#logout').on("click", function(){
+$.ajax({
+    type: "GET",
+    url: "/logout",
+    success: function (response) {
+        alert(response.message);
+        window.location.href = "/";
+    }
+});});
+</script>
