@@ -166,7 +166,7 @@ $('#formSearch').on('submit', function(e){
                     </div>
                     <div class="mx-2">
                         <p>${e.nama_file}</p>
-                        <p class="text-zinc-600">${e.matkulnama_matkul}</p>
+                        <p class="text-zinc-600">${e.matkul.nama_matkul}</p>
                     </div>
                 </div>`;
             });
