@@ -61,10 +61,15 @@ class BursaSoalController
             $bursaSoal->where('tahun', $year);
         }
 
-        $data = [
-            'result' => $bursaSoal->get()
-        ];
+        $soal = $bursaSoal->get();
+        if($soal->isEmpty()){
+            return response()->json(['result' => false]);
+        }
 
+        $data = [
+            'result' => true,
+            'soal'   => $soal
+        ];
         return response()->json($data);
     }
 

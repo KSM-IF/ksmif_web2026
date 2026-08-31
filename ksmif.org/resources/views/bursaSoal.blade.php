@@ -65,7 +65,7 @@
 
 <div id="selector" class="mx-1.5 border-2 border-dashed grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 bg-[#ffffff99] backdrop-blur-xs mb-4 rounded-2xl place-items-center">
     @if($data['bursaSoal'] == false)
-        <p>data masih kosong krn admin sedang malas isi data. Isi data mandiri di dashboard admin yeh<br>-Louis :D</p>
+        <p class="font-['Jersey10'] text-4xl p-4">DATA KOSONG</p>
     @else
         @foreach($data['bursaSoal'] as $i)
         <div data-file-id="{{$i->path}}"
@@ -77,7 +77,7 @@
             <div class="row-span-3 overflow-hidden">
                 <img src="https://lh3.googleusercontent.com/d/{{$i->path}}=s300" alt="gambarSoal" referrerpolicy="no-referrer" class="w-full h-full">
             </div>
-            <div class="mx-2">
+            <div class="mx-2 text-[0.9rem]">
                 <p>{{$i->nama_file}}</p>
                 <p class="text-zinc-600">{{$i->matkul->nama_matkul}}</p>
             </div>
@@ -153,23 +153,27 @@ $('#formSearch').on('submit', function(e){
     dataType    : "json",
     success: function (res) {
             let list = '';
-            res.result.forEach(e => {
-                list +=
-                `<div data-file-id="${e.path}"
-                    data-nama-file="${e.nama_file}"
-                    data-matkul="${e.matkul.nama_matkul}"
-                    data-tahun="${e.tahun}"
-                    data-username="${e.username}"
-                    class="item grid grid-rows-4 max-h-72 max-w-52 bg-white shadow-black shadow-2xl rounded-b-2xl my-4 mx-2 max-w-48">
-                    <div class="row-span-3 overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/${e.path}=s300" alt="gambarSoal" referrerpolicy="no-referrer" class="w-full h-full">
-                    </div>
-                    <div class="mx-2">
-                        <p>${e.nama_file}</p>
-                        <p class="text-zinc-600">${e.matkul.nama_matkul}</p>
-                    </div>
-                </div>`;
-            });
+            if(!res.result){
+                list += `<p class="font-['Jersey10'] text-4xl p-4">DATA KOSONG</p>`;
+            }else{
+                res.soal.forEach(e => {
+                    list +=
+                    `<div data-file-id="${e.path}"
+                        data-nama-file="${e.nama_file}"
+                        data-matkul="${e.matkul.nama_matkul}"
+                        data-tahun="${e.tahun}"
+                        data-username="${e.username}"
+                        class="item grid grid-rows-4 max-h-72 max-w-52 bg-white shadow-black shadow-2xl rounded-b-2xl my-4 mx-2 max-w-48">
+                        <div class="row-span-3 overflow-hidden">
+                            <img src="https://lh3.googleusercontent.com/d/${e.path}=s300" alt="gambarSoal" referrerpolicy="no-referrer" class="w-full h-full">
+                        </div>
+                        <div class="mx-2">
+                            <p>${e.nama_file}</p>
+                            <p class="text-zinc-600">${e.matkul.nama_matkul}</p>
+                        </div>
+                    </div>`;
+                });
+            }
             $('#selector').html(list);
         }
     });
