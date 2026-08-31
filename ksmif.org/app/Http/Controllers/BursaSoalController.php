@@ -13,7 +13,7 @@ use App\Models\User;
 class BursaSoalController
 {
     function bursaSoal(){
-        $bursaSoal = BursaSoal::with('matkul','users')->get();
+        $bursaSoal = BursaSoal::with('matkul','users')->orderBy('tahun', 'desc')->get();
         $matkul    = Matkul::get();
         $data 	   = [];
 

@@ -19,20 +19,20 @@ class MainController extends Controller
     }
 
     private function sortingMember($input,&$target){
-        if($input['role']==="Ketua" || $input['role']==="Koor"){
-            if(isset($target[0])){
-                $temp   = $target[0];
-                $target[0] = $input;
-                $target[]  = $temp;
-            }else{$target[0]=$input;}
-        }else if($input['role']==="Wakil Ketua" || $input['role']==="WaKoor"){
-            if(isset($target[1])){
-                $temp   = $target[1];
-                $target[1] = $input;
-                $target[]  = $temp;
-            }else{$target[1]=$input;}
-        }else{$target[] = $input;}
-    }
+    $priority = [
+        'Ketua'       => 0,
+        'Koor'        => 0,
+        'Wakil Ketua' => 1,
+        'WaKoor'      => 1,
+        'Sekretaris'  => 2,
+        'Bendahara'   => 3,
+        'Anggota'     => 4,
+    ];
+    $target[] = $input;
+    usort($target, function($a, $b) use ($priority){
+        return ($priority[$a['role']] ?? 99) <=> ($priority[$b['role']] ?? 99);
+    });
+}
 
     function getMember(){
         try{
