@@ -32,11 +32,11 @@ class MainController extends Controller
     usort($target, function($a, $b) use ($priority){
         return ($priority[$a['role']] ?? 99) <=> ($priority[$b['role']] ?? 99);
     });
-}
+    }
 
     function getMember(){
         try{
-        $now = (time() <= strtotime('01-09-2026')) ? '2025':'2026';
+        $now = now()->month >= 10 ? now()->year : now()->year - 1; 
         $member      = User::join('members', 'users.id', '=', 'members.users_id')
                            ->where('period', $now) 
                            ->get();
