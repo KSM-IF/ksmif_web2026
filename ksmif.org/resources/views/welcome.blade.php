@@ -35,7 +35,7 @@
             <h2 class="text-5xl sm:text-7xl font-bold tracking-widest uppercase">"We Not Me"</h2>
 
             <div class="flex gap-6 text-2xl sm:text-3xl mt-5">
-                <a class="bg-black text-white py-3 px-8 rounded-2xl hover:bg-white hover:text-black hover:border transition-colors" href="">Join Us</a>
+                <a class="bg-black text-white py-3 px-8 rounded-2xl hover:bg-white hover:text-black hover:border transition-colors" href="https://bit.ly/OPENRECRUITMENT_ORMAWAFT2627">Join Us</a>
                 <a class="border-2 border-black backdrop-blur-sm py-3 px-8 rounded-2xl hover:bg-black hover:text-white transition-colors" href="#navbar">About Us</a>
             </div>
         </div>

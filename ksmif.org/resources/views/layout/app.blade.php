@@ -15,7 +15,7 @@
 
     <link rel="icon" type="image/x-icon" href="images/icon/tab-icon.png" />
     <script src="/lib/jquery.js"></script>
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeJ6MstAAAAAATa140lGtWzMrna8zrPatO65r5H"></script>
+    {{-- <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeJ6MstAAAAAATa140lGtWzMrna8zrPatO65r5H"></script> --}}
     <script type="importmap">
         {
             "imports": {
@@ -80,41 +80,14 @@
 
     {{-- Popup countdown KSMIF --}}
     @include('layout.countdown')
-    <script>
-    window.addEventListener('load', function () {
-    const popup = document.getElementById('ksmif-countdown-popup');
-
-    if (!popup) return;
-
-    const loading = document.querySelector('#loading, .loading, .loader');
-
-    function showCountdown() {
-        if (sessionStorage.getItem('ksmif_countdown_closed') === '1') {
-            popup.remove();
-            return;
-        }
-
-        popup.style.display = 'flex';
-    }
-
-    if (loading) {
-        loading.addEventListener('transitionend', showCountdown, { once: true });
-        loading.addEventListener('animationend', showCountdown, { once: true });
-
-        setTimeout(showCountdown, 5000);
-    } else {
-        showCountdown();
-    }
-});
-</script>
 </body>
 <script src="/lib/console.js"></script>
 <script>
-  function onClick(e) {
-    e.preventDefault();
-    grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute('6LeJ6MstAAAAAATa140lGtWzMrna8zrPatO65r5H', {action: 'LOGIN'});
-    });
-  }
+//   function onClick(e) {
+//     e.preventDefault();
+//     grecaptcha.enterprise.ready(async () => {
+//       const token = await grecaptcha.enterprise.execute('6LeJ6MstAAAAAATa140lGtWzMrna8zrPatO65r5H', {action: 'LOGIN'});
+//     });
+//   }
 </script>
 </html>

@@ -9,8 +9,12 @@
         
         <div class="flex gap-1.5">
             <img src="/images/icon/phone.svg">
-            <a href="">PHONE : 0812345678</a>
+            <div>
+                <button type="button" class="whatsapp-button" data-contact="Kevin">PHONE : +62 812-2918-5198 (Kevin)</button><br>
+                <button type="button" class="whatsapp-button" data-contact="Jesslyn">PHONE : +62 822-1167-9988 (Jesslyn)</button>
+            </div>
         </div>
+
 
         <div class="flex gap-1.5">
             <img style="height: 24px" src="/images/icon/instagram.svg">
@@ -24,7 +28,10 @@
 
         <div class="flex gap-1.5">
             <img style="height: 24px" src="/images/icon/line.svg">
-            <a href="">LINE : @test</a>
+            <div>
+                <p>LINE : @zkfz_087 (Kevin)</p>
+                <p>Line : @jesslena07 (Jesslyn)</p>
+            </div>
         </div>
         <p class="text-[15px]">
         Copyright © KSM-IF 2026 <br>
@@ -44,6 +51,28 @@
 $(document).ready(responsiveDocs);
 $(window).resize(function(){
     responsiveDocs();
+});
+
+$('.whatsapp-button').on("click", function () {
+    let contact = $(this).data('contact');
+    let phone = "";
+    let message = encodeURIComponent(
+`Halo Admin KSM-IF!!
+Perkenalkan Saya
+Nama     : 
+NRP      : 
+Fakultas : 
+Jurusan  : 
+Angkatan :
+Keperluan :`);
+
+    if(contact == 'Kevin'){
+        phone = 6281229185198;
+    }else{
+        phone = 6282211679988;
+    }
+
+    window.open("https://wa.me/" + phone + "?text=" + message, "_blank");
 });
 
 function responsiveDocs(){
