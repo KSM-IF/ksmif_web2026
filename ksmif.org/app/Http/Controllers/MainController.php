@@ -39,6 +39,7 @@ class MainController extends Controller
         try{
         $now = now()->month >= 10 ? now()->year : now()->year - 1; 
         $oprecEnd = new \DateTime('2026-10-24');
+        $oprecEnd->setTime(18,0);
         $dateNow = new \DateTime('now');
 
         $member      = User::join('members', 'users.id', '=', 'members.users_id')
@@ -108,6 +109,7 @@ class MainController extends Controller
         $period   = $req->query('period');
         $division = $req->query('division');
         $oprecEnd = new \DateTime('2026-10-24');
+        $oprecEnd->setTime(18,0);
         $dateNow = new \DateTime('now');
 
         if($oprecEnd >= $dateNow && $period == '2026' && !empty($division)) {
