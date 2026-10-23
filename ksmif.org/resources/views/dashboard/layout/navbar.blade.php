@@ -1,5 +1,5 @@
 <nav class="left-0 float-left w-48 mx-2">
-<p>Hi met datang {{$data['userLogin']['username']}}!!</p>
+<p>Hi met datang {{Auth::user()->username}}!!</p>
 <p>Auth: {{$auth}}</p>
 <a href="/dashboard/editMember/user/by?id={{$data['userLogin']['id']}}">&#x21A3; Edit Profile</a><br>
 @if ($auth == 'superAdmin')
