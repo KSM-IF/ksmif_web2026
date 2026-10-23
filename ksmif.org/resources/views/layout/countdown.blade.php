@@ -96,5 +96,9 @@ function updateCountdown() {
         timerInterval = null;
     }
 }
+
+$('.ksmif-btn').click(function(){
+    window.location.href='https://ksmif.org';
+});
 </script>
 @endsection
