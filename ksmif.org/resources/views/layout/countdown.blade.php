@@ -32,6 +32,7 @@
                 <i class="ml-0.5 text-2xl font-bold">s</i>
             </span>
         </div>
+        <div id="reveal" class="p-5 px-7 text-5xl text-white bg-black text-center w-fit mx-auto hidden">REVEAL NOW</div>
 
         <h2 class="sm:text-4xl text-2xl">Meet Our Past Members</h2>
         <form action="/our-team/by" method="GET" id="menuSelect" class="grid grid-cols-2 w-96 max-w-full place-items-center mx-auto pb-2">
@@ -94,11 +95,17 @@ function updateCountdown() {
     if (remaining <= 0 && timerInterval !== null) {
         clearInterval(timerInterval);
         timerInterval = null;
+        $(".ksmif-timer").slideUp();
+        $('#reveal').slideDown();
     }
 }
 
 $('.ksmif-btn').click(function(){
     window.location.href='https://ksmif.org';
+});
+
+$('#reveal').click(function(){
+    window.location.href='https://ksmif.org/our-team';
 });
 </script>
 @endsection
