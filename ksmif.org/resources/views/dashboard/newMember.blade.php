@@ -65,7 +65,7 @@
 </form>
 <script>
 let submitClick = false;
-const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
+const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara', 'SekBen'];
 const roleReg = ['Koor', 'WaKoor', 'Anggota'];
 
 $('select[name="division"]').on("change",function(){

@@ -7,7 +7,7 @@
 <script>
 const user = @json($data['user']);
 const divisionOption = ['BPH', 'IRD', 'PRD', 'HRDD', 'CDD'] ;
-const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara'];
+const roleBPH = ['Ketua','Wakil Ketua', 'Sekretaris', 'Bendahara', 'SekBen'];
 const roleReg = ['Koor', 'WaKoor', 'Anggota'];
 let submitClick = false;
 $(document).ready(function () {
