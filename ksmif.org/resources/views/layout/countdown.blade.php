@@ -33,7 +33,7 @@
             </span>
         </div>
 
-        <h2 class="sm:text-4xl text-2xl">Meet Our Pass Members</h2>
+        <h2 class="sm:text-4xl text-2xl">Meet Our Past Members</h2>
         <form action="/our-team/by" method="GET" id="menuSelect" class="grid grid-cols-2 w-96 max-w-full place-items-center mx-auto pb-2">
             <div class="text-center xl:text-4xl text-2xl">
                 <select name="period" id="priod" onchange="this.form.submit()" class="underline">
