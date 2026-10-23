@@ -9,6 +9,7 @@ use App\Models\BursaSoal;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+date_default_timezone_set('Asia/Jakarta');
 
 class MainController extends Controller
 {
@@ -36,11 +37,15 @@ class MainController extends Controller
 
     function getMember(){
         try{
-        $now = now()->month >= 12 ? now()->year : now()->year - 1; 
+        $now = now()->month >= 10 ? now()->year : now()->year - 1; 
+        $oprecEnd = new \DateTime('2026-10-24');
+        $dateNow = new \DateTime('now');
+
         $member      = User::join('members', 'users.id', '=', 'members.users_id')
                            ->where('period', $now) 
                            ->get();
-        if($member->isEmpty())throw new Exception('',400);
+        // if($member->isEmpty())throw new Exception('',400);
+        
 
         $BPH=[];$IRD=[];$PRD=[];$HRDD=[];$CDD=[];
         foreach($member as $item){
@@ -63,9 +68,19 @@ class MainController extends Controller
             }
         }
 
-        $allPeriode  = Members::pluck('period')->unique()->toArray();
+        $allPeriode  = Members::orderBy('period','desc')->pluck('period')->unique()->toArray();
         $allDivision = ['ALL','BPH', 'IRD', 'PRD', 'HRDD', 'CDD'];
         $totalMember = $member->count();
+        
+        if($oprecEnd >= $dateNow) {
+            $data =[
+                'navbar'   => 'countdown',
+                'end'      => $oprecEnd->format(DATE_ATOM),
+                'division' => $allDivision,
+                'period'   => $allPeriode
+            ];
+            return view('layout.countdown', compact("data"));
+        } 
 
         $data=['navbar'     => 'ourTeam',
                'period'     => $allPeriode,
@@ -92,6 +107,8 @@ class MainController extends Controller
         try{
         $period   = $req->query('period');
         $division = $req->query('division');
+        $oprecEnd = new \DateTime('2026-10-24');
+        $dateNow = new \DateTime('now');
         
         if($division === 'ALL'){
             $member = User::join('members', 'users.id', '=', 'members.users_id')
@@ -119,6 +136,19 @@ class MainController extends Controller
                         break;
                 }
             }
+            
+            if($oprecEnd >= $dateNow && $period == '2026') {
+                $allPeriode  = Members::orderBy('period','desc')->pluck('period')->unique()->toArray();
+                $allDivision = ['ALL','BPH', 'IRD', 'PRD', 'HRDD', 'CDD'];
+                $data =[
+                    'navbar'   => 'countdown',
+                    'end'      => $oprecEnd->format(DATE_ATOM),
+                    'division' => $allDivision,
+                    'period'   => $allPeriode
+                ];
+                return view('layout.countdown', compact("data"));
+            }
+            
 
             $member =[
                 'bph' => $BPH,

@@ -74,12 +74,10 @@
     </div>
 
     @include('layout.loading')
-    @includeWhen($data['navbar'] != "homepage", 'layout.mainNavbar')
+    @includeWhen(($data['navbar'] != "homepage" && $data['navbar'] != "countdown"), 'layout.mainNavbar')
     @yield('content')
     @include('layout.mainFooter')
 
-    {{-- Popup countdown KSMIF --}}
-    @include('layout.countdown')
 </body>
 <script src="/lib/console.js"></script>
 <script>
