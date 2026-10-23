@@ -81,7 +81,7 @@
                         @if(is_null($i['display_photo']))
                         <p class="text-8xl">&quest;</p>
                         @else
-                        <img src="https://lh3.googleusercontent.com/d/{{$i['display_photo']}}=s165" loading="lazy" referrerpolicy="no-referrer" alt="member_photo">
+                        <img src="https://lh3.googleusercontent.com/d/{{$i['display_photo']}}=s165" loading="lazy" referrerpolicy="no-referrer" alt="member_photo" class="w-[165px] h-auto">
                         @endif
                         @php
                             $arr = array_filter(explode(" ", $i['full_name']));
