@@ -52,7 +52,7 @@
                     <td class="border p-2  max-w-20">{{$i['id']}}</td>
                     <td class="border p-2 ">{{$i['username']}}</td>
                     <td class="border p-2 ">{{$i['full_name']}}</td>
-                    <td class="border p-2 max-w-56"><img src="https://lh3.googleusercontent.com/d/{{$i['display_photo']}}=s150" loading="lazy" referrerpolicy="no-referrer" alt="member_photo"></td>
+                    <td class="border p-2 max-w-56"><img src="https://lh3.googleusercontent.com/d/{{$i['display_photo']}}" loading="lazy" referrerpolicy="no-referrer" alt="member_photo" class="w-36 h-auto"></td>
                     <td class="border p-2  max-w-32">{{$i['NRP']}}</td>
                     <td class="border p-2 ">{{$i['email']}}</td>
                     <td class="border p-2 max-w-8">{{$i['division']}}</td>
