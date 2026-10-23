@@ -77,7 +77,6 @@ const $s = $('#ksmif-seconds');
 // GANTI dengan tanggal dan waktu registrasi yang sebenarnya.
 // Format: YYYY-MM-DDTHH:mm:ss+07:00 (Waktu Indonesia Barat).
 let targetDate = new Date(@json($data['end'])).getTime();
-alert(targetDate);
 let timerInterval = null;
 let closed = false;
 const pad = (value) => String(value).padStart(2, '0');
