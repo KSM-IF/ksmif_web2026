@@ -112,7 +112,7 @@ class MainController extends Controller
         $oprecEnd->setTime(18,0);
         $dateNow = new \DateTime('now');
 
-        if($oprecEnd >= $dateNow && $period == '2026' && !empty($division)) {
+        if($oprecEnd >= $dateNow && $period == '2026'){
                 $allPeriode  = Members::orderBy('period','desc')->pluck('period')->unique()->toArray();
                 $allDivision = ['ALL','BPH', 'IRD', 'PRD', 'HRDD', 'CDD'];
                 $data =[
